@@ -8,6 +8,14 @@ public interface UserService {
      * @return
      */
     User login(String userCode,String password);
+
+    /**
+     * 通过异步请求 验证 邮箱或手机是否已被注册
+     * @param userCode  邮箱或手机
+     * @return
+     */
+    User findUserByUserCode(String userCode);
+
     /**
      * 注册
      * @param userCode  手机号/邮箱

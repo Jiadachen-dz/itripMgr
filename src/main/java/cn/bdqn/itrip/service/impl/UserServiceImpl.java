@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.login(userCode,password);
     }
 
+    @Override
+    public User findUserByUserCode(String userCode) {
+        return userMapper.getUserByUserCode(userCode);
+    }
+
 
     @Override
     public int register(String userCode, String nickname, String password) {

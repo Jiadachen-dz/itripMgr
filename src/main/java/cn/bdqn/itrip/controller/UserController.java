@@ -3,13 +3,17 @@ package cn.bdqn.itrip.controller;
 import cn.bdqn.itrip.pojo.User;
 import cn.bdqn.itrip.service.UserService;
 import cn.bdqn.itrip.utils.EncryptionUtil;
+import cn.bdqn.itrip.utils.ToJsonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "user")
@@ -60,6 +64,34 @@ public class UserController {
     }
 
     /**
+     * 异步验证手机/邮箱是否已被注册
+     * @param userCode
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/findUserByUserCode.json")
+    @ResponseBody
+    public Object findUserByUserCode(@RequestParam("userCode") String userCode,
+                                     HttpServletRequest request){
+        Map<String,Object> map = new HashMap<String,Object>();
+        if (userCode==null || "".equals(userCode.trim())){
+            map.put("userCode","empty");
+            return ToJsonUtil.toJson(map);
+        }
+        User user = userService.findUserByUserCode(userCode);
+        if (user!=null){
+            map.put("userCode","exist");
+//            request.setAttribute("tips","该用户可用");
+        }else {
+            map.put("userCode","noexist");
+        }
+//        request.setAttribute("tips","该用户已被注册，请更换用户");
+        System.out.println(map.get("userCode"));
+        System.out.println(ToJsonUtil.toJson(map));
+        return ToJsonUtil.toJson(map);
+    }
+
+    /**
      * 注册
      * @param userCode  邮箱/手机
      * @param nickname  昵称
@@ -71,7 +103,6 @@ public class UserController {
     public String doRegister(@RequestParam("userCode") String userCode,
                            @RequestParam("nickname") String nickname,
                            @RequestParam("password") String password,
-                           @RequestParam("agreement") String agreement,
                            HttpServletRequest request){
             //MD5加密（密码加密）
             String passwordMd5 = EncryptionUtil.md5Encryption(password);
@@ -84,6 +115,6 @@ public class UserController {
             request.setAttribute("msg","注册失败,请重新注册！");
             System.out.println("注册失败!");
             return "register";
+        }
 
-    }
 }

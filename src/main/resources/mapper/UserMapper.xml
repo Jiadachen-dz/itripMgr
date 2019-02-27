@@ -22,6 +22,12 @@
       </trim>
   </select>-->
 
+    <!--异步验证用户是否已被注册-->
+    <select id="getUserByUserCode" resultType="user">
+        select * from users where userCode=#{userCode}
+    </select>
+
+    <!--注册-->
     <insert id="register" >
         insert into users (userCode,nickname,password) values (#{userCode},#{nickname},#{password})
       <!--  <trim prefix="(" suffixOverrides="," suffix=")">

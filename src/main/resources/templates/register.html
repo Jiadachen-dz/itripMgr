@@ -112,6 +112,7 @@
 							<div id="phoneRegister" style="display: none">
 					    	<div style="margin-bottom: 16px">
 								*注册手机<span><input placeholder="请输入手机号" name="userCode" type="text" class="textbox"></span>
+                                <span th:text="${tips}"></span>
 						    </div>
 						    <div style="margin-bottom: 16px">
 								昵称<span><input placeholder="请输入昵称" name="nickname" type="text" class="textbox"></span>
@@ -136,6 +137,7 @@
 							<div id="emailRegister" style="display: block" >
 								<div style="margin-bottom: 16px">
 									*注册邮箱<span><input placeholder="请输入邮箱" name="userCode" type="text" class="textbox"></span>
+                                    <span th:text="${tips}"></span>
 								</div>
 								<div style="margin-bottom: 16px">
 									昵称<span><input placeholder="请输入昵称" name="nickname" type="text" class="textbox"></span>
@@ -174,36 +176,51 @@
 
 <script type="text/javascript">
 	$(function () {
+	    //选择邮箱注册
         $("#phoneRadio").click(function () {
 			$("#emailRegister").css("display","none");
 			$("#phoneRegister").css("display","block");
 
         })
 
+        //选择邮箱注册
         $("#emailRadio").click(function () {
             $("#emailRegister").css("display","block");
             $("#phoneRegister").css("display","none");
 
         })
+
 		//判断是否同意协议(邮箱注册)
 		$("#reg").click(function () {
 		    //不同意不给登录
 			if(!$("#agreement").attr("checked")){
-                ${"#msg"}.html("遵守《i旅行用户服务协议》才能注册！");
+                $("#msg").html("遵守《i旅行用户服务协议》才能注册！");
                 return;
 			}
 			//同意，并且提交表单
 			$("#register").submit();
         })
+
         //判断是否同意协议（手机注册）
         $("#reg").click(function () {
             //不同意不给登录
             if(!$("#agreement1").attr("checked")){
-                ${"#msg1"}.html("遵守《i旅行用户服务协议》才能注册！");
+                $("#msg1").html("遵守《i旅行用户服务协议》才能注册！");
                 return;
             }
             //同意，并且提交表单
             $("#register").submit();
+        })
+
+        //异步验证手机或邮箱是否已被注册
+        $.ajax({
+            type:"get",
+            url:"/user/doRegister.html",
+            data:{userCode:$("userCode").val()},
+            dataType:"json",
+            success:function (data) {
+
+            }
         })
     })
 </script>

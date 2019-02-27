@@ -11,6 +11,13 @@ public interface UserMapper {
     User login(@Param("userCode") String userCode,@Param("password") String password);
 
     /**
+     * 通过异步请求 验证 邮箱或手机是否已被注册
+     * @param userCode  邮箱或手机
+     * @return
+     */
+    User getUserByUserCode(@Param("userCode") String userCode);
+
+    /**
      * 注册
      * @param userCode  手机号/邮箱
      * @param nickname  昵称
