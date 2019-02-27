@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.itrip.dao.UserMapper">
+  <select id="login" resultType="user">
+      select * from users where userCode=#{userCode} and password=#{password}
+  </select>
+
+<!--    <select id="loginDemo" resultType="user">
+      select * from users
+      <trim prefix="where" suffixOverrides="and|or">
+          <if test="userCode!=null and userCode!=''">
+             and userCode=#{userCode}
+          </if>
+          <if test="phone!=null and phone!=''">
+              and phone=#{phone}
+          </if>
+          <if test="password!=null and password!=''">
+              and password=#{password}
+          </if>
+      </trim>
+  </select>-->
+
+    <insert id="register" >
+        insert into users (userCode,nickname,password) values (#{userCode},#{nickname},#{password})
+      <!--  <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="userCode!=null and userCode!=''">
+                #{userCode},
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                #{nickname},
+            </if>
+            <if test="userCode==null and userCode==''">
+                #{null},
+            </if>
+            <if test="password!=null and password!=''">
+                #{password},
+            </if>
+        </trim>-->
+    </insert>
+
+</mapper>
