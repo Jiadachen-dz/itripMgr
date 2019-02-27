@@ -124,10 +124,10 @@
 							</div>
 							<div id="msg1"></div>
 							<div>
-								<label for="agreement1" style="margin-left: 168px;"><input id="agreement1" type="checkbox" name="agreement" value="agree">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
+								<label for="agreement1" style="margin-left: 168px;"><input id="agreement1" type="checkbox" name="agreement">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
 							</div>
 							<div>
-								<span><input type="submit" value="同意协议注册" style="float: left;margin-left: 127px"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpLogin'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+								<span><input class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpLogin'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
 							</div>
 							<div style="clear:both"></div><!--清除浮动-->
 				  		</div>
@@ -151,7 +151,7 @@
 									<label for="agreement" style="margin-left: 168px;"><input id="agreement" type="checkbox" name="agreement">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
 								</div>
 								<div>
-									<span><input id="reg" type="button" value="同意协议注册" style="float: left;margin-left: 127px"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpLogin'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+									<span><input id="reg" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpLogin'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
 								</div>
 								<div style="clear:both"></div><!--清除浮动-->
 							</div>
@@ -189,7 +189,7 @@
 		$("#reg").click(function () {
 		    //不同意不给登录
 			if(!$("#agreement").attr("checked")){
-                // ${"#msg"}.html("遵守《i旅行用户服务协议》才能注册！");
+                ${"#msg"}.html("遵守《i旅行用户服务协议》才能注册！");
                 return;
 			}
 			//同意，并且提交表单
@@ -199,7 +199,7 @@
         $("#reg").click(function () {
             //不同意不给登录
             if(!$("#agreement1").attr("checked")){
-                // ${"#msg1"}.html("遵守《i旅行用户服务协议》才能注册！");
+                ${"#msg1"}.html("遵守《i旅行用户服务协议》才能注册！");
                 return;
             }
             //同意，并且提交表单
