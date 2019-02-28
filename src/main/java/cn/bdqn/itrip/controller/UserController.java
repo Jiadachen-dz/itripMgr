@@ -73,6 +73,7 @@ public class UserController {
     @ResponseBody
     public Object findUserByUserCode(@RequestParam("userCode") String userCode,
                                      HttpServletRequest request){
+        System.out.println("验证邮箱/手机是否已被注册！");
         Map<String,Object> map = new HashMap<String,Object>();
         if (userCode==null || "".equals(userCode.trim())){
             map.put("userCode","empty");
@@ -83,7 +84,7 @@ public class UserController {
             map.put("userCode","exist");
 //            request.setAttribute("tips","该用户可用");
         }else {
-            map.put("userCode","noexist");
+            map.put("userCode","noExist");
         }
 //        request.setAttribute("tips","该用户已被注册，请更换用户");
         System.out.println(map.get("userCode"));

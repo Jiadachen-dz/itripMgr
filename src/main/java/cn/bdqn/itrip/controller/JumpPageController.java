@@ -23,26 +23,31 @@ public class JumpPageController {
     private String jumpContact(){
         return "contact";
     }
+
     //跳转到旅游页面
     @RequestMapping(value = "/jumpDestination")
     private String jumpDestination(){
         return "destination";
     }
+
     //跳转到机票页面
     @RequestMapping(value = "/jumpPayment")
     private String jumpPayment(){
         return "payment";
     }
+
     //跳转到机票搜索页面
     @RequestMapping(value = "/jumpSearch")
     private String jumpSearch(){
         return "search";
     }
+
     //跳转到登录界面
     @RequestMapping(value = "/jumpLogin")
     private String jumpLogin(){
         return "login";
     }
+
     //跳转到注册页面
     @RequestMapping(value = "/jumpRegister")
     private String jumpRegister(){
