@@ -3,7 +3,7 @@ package cn.bdqn.itrip.utils;
 import org.springframework.util.DigestUtils;
 
 /**
- * 加密工具类
+ * MD5加密工具类
  */
 public class EncryptionUtil {
 

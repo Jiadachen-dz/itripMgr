@@ -3,7 +3,10 @@ package cn.bdqn.itrip.controller;
 import cn.bdqn.itrip.pojo.User;
 import cn.bdqn.itrip.service.UserService;
 import cn.bdqn.itrip.utils.EncryptionUtil;
+import cn.bdqn.itrip.utils.SendEmail;
 import cn.bdqn.itrip.utils.ToJsonUtil;
+import cn.bdqn.itrip.utils.UuidUtils;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +25,12 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    JavaMailSender jms;
+
     /**
      * 登录
+     * （登录前判断帐号是否激活，未激活则给出提示）
      * @param userCode  邮箱或者手机
      * @param password   密码
      * @param session
@@ -38,13 +46,15 @@ public class UserController {
         User user = userService.login(userCode,passwordTemp);
         //登录成功
         if (user!=null){
+            //帐号未激活
+            if (user.getStatus()!=1){
+                request.setAttribute("statusMsg","该帐号尚未激活!");
+            }
             session.setAttribute("loginUser",user);
 //            System.out.println((User)session.getAttribute("loginUser"));
-                System.out.println("11111111");
                 return "index";
             }
             //登录失败
-            System.out.println("222222");
             request.setAttribute("msg","用户名或密码不正确！");
             return "login";
     }
@@ -95,27 +105,48 @@ public class UserController {
     /**
      * 注册
      * @param userCode  邮箱/手机
-     * @param nickname  昵称
+     * @param nickName  昵称
      * @param password  密码
      * @param request
      * @return
      */
     @RequestMapping(value = "doRegister.html")
     public String doRegister(@RequestParam("userCode") String userCode,
-                           @RequestParam("nickname") String nickname,
+                           @RequestParam("nickName") String nickName,
                            @RequestParam("password") String password,
                            HttpServletRequest request){
+        System.out.println(userCode+nickName+password);
             //MD5加密（密码加密）
             String passwordMd5 = EncryptionUtil.md5Encryption(password);
-            int count = userService.register(userCode, nickname, passwordMd5);
+            int count = userService.register(userCode, nickName, passwordMd5);
             if (count>0){
+                //为注册用户生成激活码
+                String activeCode = UuidUtils.randomUUID()+ Calendar.getInstance().getTimeInMillis();
+                //发送邮箱
+                SendEmail.send(userCode,activeCode,jms);
                 request.setAttribute("msg","注册成功，请登录！");
-                System.out.println("注册成功!");
                 return "login";
             }
             request.setAttribute("msg","注册失败,请重新注册！");
-            System.out.println("注册失败!");
             return "register";
         }
+
+    public String activateAccount(@RequestParam("userCode") String userCode,
+                                  @RequestParam("ActivationCode")String ActivationCode,
+                                    HttpServletRequest request){
+        //判断激活码是否正确
+        if (!ActivationCode.equals("")){
+
+        }
+        //激活
+        int count = userService.updateStatus(userCode);
+        if (count>0){
+            request.setAttribute("msg","激活成功！");
+            return "success";
+        }
+        //激活失败
+        request.setAttribute("msg","激活失败！");
+        return "fail";
+    }
 
 }

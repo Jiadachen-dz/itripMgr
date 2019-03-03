@@ -29,13 +29,13 @@
 
     <!--注册-->
     <insert id="register" >
-        insert into users (userCode,nickname,password) values (#{userCode},#{nickname},#{password})
+        insert into users (userCode,nickName,password) values (#{userCode},#{nickName},#{password})
       <!--  <trim prefix="(" suffixOverrides="," suffix=")">
             <if test="userCode!=null and userCode!=''">
                 #{userCode},
             </if>
-            <if test="nickname!=null and nickname!=''">
-                #{nickname},
+            <if test="nickName!=null and nickName!=''">
+                #{nickName},
             </if>
             <if test="userCode==null and userCode==''">
                 #{null},
@@ -45,5 +45,9 @@
             </if>
         </trim>-->
     </insert>
+
+    <update id="updateStatus">
+        update users set STATUS=1 where userCode=#{userCode}
+    </update>
 
 </mapper>

@@ -7,8 +7,8 @@ public class User {
     private Integer id;         //编号
     private String userCode;    //用户名(邮箱或者手机)
     private String password;    //密码
-    private String username;    //真实姓名
-    private String nickname;    //昵称
+    private String userName;    //真实姓名
+    private String nickName;    //昵称
     private String idCard;      //身份证
     private String mobile;      //手机
     private Integer status;     //激活状态
@@ -16,20 +16,14 @@ public class User {
     public User() {
     }
 
-    public User(String userCode, String password, String username, String nickname, String idCard, String mobile) {
+    public User(Integer id, String userCode, String password, String userName, String nickName, String idCard, String mobile, Integer status) {
+        this.id = id;
         this.userCode = userCode;
         this.password = password;
-        this.username = username;
-        this.nickname = nickname;
+        this.userName = userName;
+        this.nickName = nickName;
         this.idCard = idCard;
         this.mobile = mobile;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -57,20 +51,20 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getIdCard() {
@@ -89,16 +83,25 @@ public class User {
         this.mobile = mobile;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", userCode='" + userCode + '\'' +
                 ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", userName='" + userName + '\'' +
+                ", nickName='" + nickName + '\'' +
                 ", idCard='" + idCard + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

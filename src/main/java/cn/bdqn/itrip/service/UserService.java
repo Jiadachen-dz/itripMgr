@@ -19,9 +19,16 @@ public interface UserService {
     /**
      * 注册
      * @param userCode  手机号/邮箱
-     * @param nickname  昵称
+     * @param nickName  昵称
      * @param password  密码
      * @return  返回数据库受影响行数
      */
-    int register(String userCode,String nickname,String password);
+    int register(String userCode,String nickName,String password);
+
+    /**
+     * 激活帐号（修改用户状态）
+     * @param userCode  邮箱或手机
+     * @return
+     */
+    int updateStatus(String userCode);
 }
