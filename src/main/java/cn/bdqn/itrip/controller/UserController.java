@@ -122,6 +122,7 @@ public class UserController {
             if (count>0){
                 //为注册用户生成激活码
                 String activeCode = UuidUtils.randomUUID()+ Calendar.getInstance().getTimeInMillis();
+                System.out.println("邮箱激活码："+activeCode);
                 //发送邮箱
                 SendEmail.send(userCode,activeCode,jms);
                 request.setAttribute("msg","注册成功，请登录！");
@@ -131,12 +132,21 @@ public class UserController {
             return "register";
         }
 
+    /**
+     * 激活帐号
+     * @param userCode     用户
+     * @param activationCode  页面输入的激活码
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "activateAccount.html")
     public String activateAccount(@RequestParam("userCode") String userCode,
-                                  @RequestParam("ActivationCode")String ActivationCode,
+                                  @RequestParam("activationCode")String activationCode,
                                     HttpServletRequest request){
         //判断激活码是否正确
-        if (!ActivationCode.equals("")){
-
+        if (!activationCode.equals("activeCode")){
+            request.setAttribute("msg","激活失败，激活码有误！");
+            return "fail";
         }
         //激活
         int count = userService.updateStatus(userCode);

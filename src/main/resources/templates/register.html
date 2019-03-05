@@ -40,6 +40,17 @@
 			font-weight: 500;
 		}
 
+
+        /*激活*/
+        .login-popup-wrapper { display: block; width: 100%; height: 100%; position:fixed; top: 0; left: 0; background: url(/images/bg.png) repeat; z-index: 9998; }
+        #login-popup { display:block; position: fixed; top:50%; left:50%; margin: -45px 0 0 -185px; width:246px; padding: 57px 40px 26px 40px; background:#fff; border:3px solid #017eba; z-index: 9999; }
+        #login-popup h2 { color: #342323; margin-bottom: 17px; }
+
+        #login-popup form #activationCode_userCode { font: 400 14px 'Arial', Helvetica, sans-serif; font-style:italic; color:#808181; display:block; width:88%; background:#fff; outline:none; padding:10px 20px ; border:1px solid #ebe8e3;  border-radius:0px; }
+        #login-popup form #activationCode {  font: 400 14px 'Arial', Helvetica, sans-serif; font-style:italic; color:#808181; display:block; width:88%; background:#fff; outline:none; padding:10px 20px ; border:1px solid #ebe8e3;  border-radius:0px; }
+
+        #login-popup #login-button { font: 700 22px 'gotham_roundedmedium', Helvetica, sans-serif; color: #ffffff;   background:#017eba; border:3px;  padding: 15px 50px; margin: 0 auto; text-align:	center;}
+
 	</style>
 <meta charset="UTF-8">
 <title>Contact</title>
@@ -147,6 +158,21 @@
   				<div class="clearfix"></div>		
 		  </div>
 	</div>
+
+    <!--激活窗口-->
+    <div class="login-popup-wrapper">
+        <div id="login-popup">
+            <h2>激活帐号</h2>
+            <form method="post" action="/#">
+                <input type="text" value="" name="userCode" id="activationCode_userCode" placeholder="请输入邮箱/手机" />
+                <input type="text" value="" name="activationCode" id="activationCode" placeholder="请输入激活码" />
+
+                <input type="submit" value="登录"  id="login-button"/><input type="button" value="激活账号"  id="jh_button"/>
+            </form>
+            <a href="#" class="close">Close</a>
+        </div>
+    </div>
+
 </div>
 </div>			
 	<!-- content-section-ends -->
@@ -166,35 +192,19 @@
             $("#emailOrPhone").html("*注册邮箱<span><input id=\"userCode\" placeholder=\"请输入邮箱\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n" +
                 "<p id=\"userCode_msg\" class=\"msg\"></p>");
 
-
         })
+
+
 
         //手机注册
         $("#phoneRadio").click(function () {
             $("#emailOrPhone").html("*注册手机<span><input id=\"userCode\" placeholder=\"请输入手机号\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n"+
                 "<p id=\"userCode_msg\" class=\"msg");
-        })
-
-
-
-	    //选择手机注册
-        $("#phoneRadio").click(function () {
-
-            //判断是否同意协议（手机注册）
-            $("#reg1_button").click(function () {
-                //不同意不给登录，并且给出提示
-                if(!$("#agreement1").attr("checked")){
-                    $("#msg1").css({"color":"red","text-align":"center"});
-                    $("#msg1").html("遵守《i旅行用户服务协议》才能注册！");
-                    return;
-                }
-                //同意，并且提交表单
-                $("#register").submit();
-            })
 
         })
-		//------------------------------------------------------------------------
-        //非空判断
+
+
+        //非空判断（点击注册按钮）
         $("#reg_button").click(function () {
             $("#nickName_msg").html("");
             $("#password_msg").html("");
@@ -217,14 +227,12 @@
                 return;
             }
 
-
-
-            //判断两次密码是否相同(邮箱)
+            //判断两次密码是否相同
             if ($("#password").val() != $("#rePassword").val()) {
                 $("#rePassword_msg").html("两次输入的密码不一致！");
                 return;
             }
-            //判断是否同意协议(邮箱注册)
+            //判断是否同意协议
             if (!$("#agreement").attr("checked")) {
                 $("#msg").css({"color": "red", "text-align": "center"});
                 $("#msg").html("遵守《i旅行用户服务协议》才能注册！");
@@ -234,7 +242,6 @@
             //同意，并且提交表单
             $("#register").submit();
         })
-
 
         //异步验证手机或邮箱是否已被注册
         $(".userCode").bind("blur",function () {
@@ -253,7 +260,6 @@
                 usercode=$("#userCode1").val();
 
             }
-
                 $.ajax({
                 type:"get",
                 url:"/user/findUserByUserCode.json",
