@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8">
 <title>Booking</title>
@@ -33,8 +35,20 @@
 				  $(function() {
 				    $( "#datepicker,#datepicker1" ).datepicker();
 				  });
-		  </script>
-<!---/End-date-piker---->
+    </script>
+
+
+    <!--登记入住-->
+	<script type="text/javascript" src="/js/jquery-ui.js"/>
+	<script type="text/javascript">
+		$(function () {
+		    $("#Checking").click()
+
+        })
+
+	</script>
+
+
 
 </head>
 <body>
@@ -47,13 +61,13 @@
 				</div>
 				<!-- start h_menu4 -->
 					<div class="h_menu4">
-					<a class="toggleMenu" href="">Menu</a>
-					<ul class="nav p-nav">
+						<a class="toggleMenu" href="">Menu</a>
+						<ul class="nav p-nav">
 						<li class="active"><a href="/jump/jumpHome">首页</a></li>
-						<li><a href="/jump/jumpHotel">酒店</a>
+						<li><a href="/hotel/getHostList">酒店</a>
 							<ul>
 								<li><a href="booking.html">预定</a></li>
-								<li><a href="rooms.html">客房</a></li>
+								<li><a href="/room/room1">客房</a></li>
 								<li><a href="reservation.html">保留</a></li>
 								<li><a href="booking.html">大城市的酒店</a></li>
 								<li><a href="booking.html">小城市的酒店</a></li>
@@ -84,145 +98,117 @@
 	<!-- header-ends -->
 	<!-- content-section-starts -->
 	<!--start main -->
-<div class="main_bg">
-<div class="container">
-	<div class="online_reservation">
-	<div class="b_room">
-		<div class="booking_room">
-			<h4>book a room online</h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
-		</div>
-		<div class="reservation">
-			<ul>
-				<li class="span1_of_1">
-					<h5>type of room:</h5>
-					<!----------start section_room----------->
-					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">Select a type of room</option>
-				            <option value="null">Suite room</option>         
-				            <option value="AX">Single room</option>
-							<option value="AX">Double room</option>
-		        		</select>
-					</div>	
-				</li>
-				<li  class="span1_of_1 left">
-					<h5>check-in-date:</h5>
-					<div class="book_date">
-						<form>
-							<input class="date" id="datepicker" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
-						</form>
 
-					</div>					
-				</li>
-				<li  class="span1_of_1 left">
-					<h5>check-out-date:</h5>
-					<div class="book_date">
-						<form>
-							<input class="date" id="datepicker1" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
-						</form>
-					</div>		
-				</li>
+
+<div class="main_bg">
+	<div class="container">
+		<div class="online_reservation">
+			<!--<div class="hotel_sou">-->
+			<!--<form>-->
+				<!--<input type="search" name="sou" value="酒店名查找" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '酒店名查找';}"/>-->
+				<!--<input type="button" value="搜索" id="Checking" />-->
+			<!--</form>-->
+			<!--</div>-->
+		<div class="b_room">
+			<div class="booking_room">
+				<h4>在线预订酒店</h4>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+			</div>
+				<div class="reservation">
+					<ul>
+					<li class="span1_of_1">
+					<h5>酒店出租:</h5>
+					<!----------start section_room----------->
+					<div class="section_room" >
+						<select id="country" onchange="change_country(this.value)" class="frm-field required">
+							<opoption value="1">五星</opoption>
+							<option value="2">四星</option>
+							<option value="3">三星</option>
+							<option value="4">二星</option>
+							<option value="5">一星</option>
+		        		</select>
+					</div>
+						</li>
+
+
+					<div>
+						<li  class="span1_of_1 left">
+							<h5>入住日期:</h5>
+							<div class="book_date">
+								<form>
+									<input class="date" id="datepicker" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
+								</form>
+
+							</div>
+						</li>
+						<li  class="span1_of_1 left">
+							<h5>退房日期:</h5>
+							<div class="book_date">
+								<form>
+									<input class="date" id="datepicker1" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
+								</form>
+							</div>
+						</li>
+
+					</div>
+
 				<li class="span1_of_2 left">
-					<h5>Adults:</h5>
+					<h5>价格:</h5>
 					<!----------start section_room----------->
 					<div class="section_room">
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">1</option>
-				            <option value="null">2</option>         
-				            <option value="AX">3</option>
-							<option value="AX">4</option>
+						<select style="width: 100px" id="country" onchange="change_country(this.value)" class="frm-field required">
+							<option value="1">180-380$</option>
+				            <option value="2">380-680$</option>
+				            <option value="3">680-980$</option>
+							<option value="4">不限</option>
 		        		</select>
 					</div>					
 				</li>
-				<li class="span1_of_3">
-					<div class="date_btn">
-						<form>
-							<input type="submit" value="book now" />
-						</form>
-					</div>
-				</li>
+
+
 				<div class="clearfix"></div>
 			</ul>
+
+					<div class="hotel_sou">
+						<form style="	margin-left: 205px;	width: 405px;margin-top: 21px;height: 37px;" >
+							<input type="search" name="sou" value="酒店名查找" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '酒店名查找';}" style="    height: 35px; width: 326px;margin-top: 7px;margin-left: 19px;"/>
+							<input type="button" value="搜索" id="Checking" style="height: 32px;"/>
+						</form>
+					</div>
 		</div>
 		<div class="clearfix"></div>
 		</div>
 	</div>
 	<!--start grids_of_3 -->
+
+
 	<div class="grids_of_3">
-		<div class="grid1_of_3">
+		<div class="grid1_of_3"  th:each="hotel:${hotelList} ">
 			<div class="grid1_of_3_img">
 				<a href="details.html">
 					<img src="/images/b-pic2.jpg" alt="" />
 					<span class="next"> </span>
 				</a>
 			</div>
-			<h4><a href="#">single room<span>120$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+			<h4><a href="#" th:text="${hotel.hotelName}"> <br/>
+				<span th:text="${hotel.hotelLevel}">星级酒店</span></a></h4>
+			<tr th:text="${hotel.hotLine}"></tr><br/>
+			<tr th:text="${hotel.address}"></tr><br/>
+			<p th:text="${hotel.details}"></p>
 		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="/images/b-pic1.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">double room<span>180$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+			<div class="clearfix"></div>
 		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="/images/b-pic3.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">suite room<span>210$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="/images/b-pic2.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">single room<span>120$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="/images/b-pic1.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">double room<span>180$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-		<div class="grid1_of_3">
-			<div class="grid1_of_3_img">
-				<a href="details.html">
-					<img src="/images/b-pic3.jpg" alt="" />
-					<span class="next"> </span>
-				</a>
-			</div>
-			<h4><a href="#">suite room<span>210$</span></a></h4>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		</div>
-		<div class="clearfix"></div>
-	</div>	
+	</div>
 </div>
-</div>		
-<!--start main -->
+	<!--start main -->
 	<!-- content-section-ends -->
 	<!-- footer-section-starts -->
 	<div class="footer">
 		<div class="copy-rights text-center">
 			<p>版权所有©2019.华立四大天王 天王保留所有版权.</p>
-		</div>			
+		</div>
 	</div>
 	<!-- footer-section-ends -->
-
 </body>
 </html>
