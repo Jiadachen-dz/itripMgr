@@ -1,11 +1,22 @@
 package cn.bdqn.itrip.controller;
 
+import cn.bdqn.itrip.utils.SendEmail;
+import cn.bdqn.itrip.utils.UuidUtils;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.Calendar;
 
 @Controller
 @RequestMapping(value = "/jump")
 public class JumpPageController {
+    @Resource
+    JavaMailSender jms;
+
     //跳转到首页
     @RequestMapping(value = "/jumpHome")
     private String jumpHome(){
@@ -52,5 +63,30 @@ public class JumpPageController {
     @RequestMapping(value = "/jumpRegister")
     private String jumpRegister(){
         return "register";
+    }
+    //跳转到激活页面
+    @RequestMapping(value = "/jumpActivation")
+    private String jumpActivation(){
+        return "activation";
+    }
+
+    //跳转到激活页面（登录成功后的激活）
+    @RequestMapping(value = "/jumpReActivation")
+    private String jumpReActivation(@RequestParam(value = "userCode",required = false) String userCode,
+                                    HttpSession session){
+        if (userCode!="" && userCode!=null){
+            //为注册用户生成激活码
+            String activeCode = UuidUtils.randomUUID()+ Calendar.getInstance().getTimeInMillis();
+            session.setAttribute(userCode,activeCode);
+            //发送邮箱
+            SendEmail.send(userCode,activeCode,jms);
+        }
+        return "activation";
+    }
+
+    //跳转到房间页面
+    @RequestMapping(value = "/jumpRooms")
+    private String jumpRooms(){
+        return "rooms";
     }
 }
