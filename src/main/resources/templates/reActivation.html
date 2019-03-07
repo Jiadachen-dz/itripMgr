@@ -3,7 +3,10 @@
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 	<style>
-		#mg{
+        .msg{
+            color: red;
+        }
+		.mg{
 			display: inline-block;
 			text-transform: uppercase;
 			background: #444444;
@@ -21,11 +24,8 @@
 			float: right;
 			width: 21% !important;
 			-webkit-appearance: none;
-
-
 		}
-
-		#pass{
+		.pass{
 			border: 1px solid #ff7b3d;
 			margin-top: 5px;
 			padding: 10px;
@@ -39,8 +39,11 @@
 			-webkit-appearance: none;
 			font-weight: 500;
 		}
+
+
+
 	</style>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 <title>Contact</title>
 <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -62,7 +65,7 @@
 		<div class="container">
 			<div class="page-header-info">
 				<div class="page-header-info-head text-center">
-					<a href="/jump/jumpHome"><h1>i旅行</h1></a>
+					<a href="index.html"><h1>i旅行</h1></a>
 				</div>
 				<!-- start h_menu4 -->
 				<div class="h_menu4">
@@ -109,26 +112,33 @@
       					
 				<div class="contact_right" style="width: 600px;margin-left: 264px">
 				  <div class="contact-form">
-				  	<h3 style="text-align:center;">请登录</h3>
-					    <form method="post" action="/user/doLogin.html">
-					    	<div style="margin-bottom: 16px">
-								<input name="userCode" id="userCode" placeholder="请输入邮箱/手机号" type="text" class="text">
-						    </div>
-						    <div style="margin-bottom: 16px">
-								<input id="pass" placeholder="请输入密码" type="password" name="password" class="text">
-						    </div>
-							<div style="text-align: center;color: red" th:text="${msg}"></div>
-							<div style="text-align: center;color: green" th:text="${atMsg}"></div>
-						   <div>
-						   		<span><input type="submit" value="登录" style="float: left;margin-left: 127px"><input id="mg" type="button" value="激活帐号" onclick="jumpReActivation()" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
-						  </div>
-							<div style="clear:both"></div><!--清除浮动-->
+				  	<h3 style="text-align:center;">激活帐号</h3>
+					  <div style="text-align: center;color: green" th:text="${msg}"></div>
+					    <form id="at_form" style="margin-top: 16px" method="post" action="/user/doActivateAccount.html">
+                            <!--激活帐号-->
+							<div>
+								<div id="emailOrPhone" style="margin-bottom: 16px">
+                                    激活帐号<span><input id="userCode" placeholder="邮箱/手机" name="userCode" type="text" class="userCode" th:text="${session.loginUser.userCode}"></span>
+                                    <p id="userCode_msg" class="msg"></p>
+								</div>
+								<div style="margin-bottom: 16px">
+									激活码<span><input id="activationCode" placeholder="激活码/验证码" name="activationCode" type="text"></span>
+                                    <p id="activationCode_msg" class="msg"></p>
+								</div>
+								<div style="text-align: center;color: red" th:text="${atMsg}"></div>
+								<div id="msg" style="text-align: center;color: red"></div>
+								<div style="text-align: center">
+									<span><input class="mg" type="button" value="发送激活码" onclick="location.href='/jump/jumpRegister'" style="float: left;margin-left: 127px;margin-top: 10px;"><input id="at_button" class="mg" type="button" value="激活帐号" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+								</div>
+								<div style="clear:both"></div><!--清除浮动-->
+							</div>
 					    </form>
 				    </div>
   				</div>		
   				<div class="clearfix"></div>		
 		  </div>
 	</div>
+
 </div>
 </div>			
 	<!-- content-section-ends -->
@@ -139,10 +149,53 @@
 		</div>			
 	</div>
 	<!-- footer-section-ends -->
-	<script>
-	function jumpReActivation() {
-        location.href = '/jump/jumpReActivation?userCode=' + $("#userCode").val()
-    }
-	</script>
+
+<script type="text/javascript">
+	$(function () {
+        //异步验证帐号是否存在，且判断有没有激活
+        $("#userCode").bind("blur",function () {
+            $.ajax({
+                type:"get",
+                url:"/user/findActivation.json",
+                data:{userCode:$("#userCode").val()},
+                dataType:"json",
+                success:function (data) {
+                    if (data.userCode == "empty"){
+                        $("#userCode_msg").html("邮箱/手机不能为空！");
+                    }else if (data.userCode == "activated") {
+                        $("#userCode_msg").html("该邮箱/手机已激活，不用再次激活！");
+                    }else if (data.userCode=="noExist"){
+                        $("#userCode_msg").html("该邮箱/手机未注册，请先注册！");
+					} else if (data.userCode == "notActive"){
+                        $("#userCode_msg").html("");
+                    }
+                },
+                error:function (data) {
+                    alert("请求错误！")
+                }
+            })
+        })
+
+        //非空判断（点击激活按钮）
+        $("#at_button").click(function () {
+            $("#userCode_msg").html("");
+            $("#activationCode_msg").html("");
+            $("#msg").html("");
+            if ($("#userCode_msg").html()=="邮箱/手机不能为空！" ||$("#userCode_msg").html()=="该邮箱/手机已激活，不用再次激活！") {
+                return;
+            }
+            if ($("#activationCode").val().trim() == '') {
+                $("#activationCode_msg").html("激活码不能为空！");
+                return;
+			}
+            //激活码正确，且帐号未激活时，提交表单
+            $("#at_form").submit();
+        })
+
+
+
+    })
+</script>
+
 </body>
 </html>

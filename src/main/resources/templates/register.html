@@ -40,6 +40,8 @@
 			font-weight: 500;
 		}
 
+
+
 	</style>
 <meta charset="UTF-8">
 <title>Contact</title>
@@ -117,7 +119,7 @@
                             <!--注册-->
 							<div>
 								<div id="emailOrPhone" style="margin-bottom: 16px">
-                                    *注册邮箱<span><input id="userCode" placeholder="请输入邮箱" name="userCode" type="text" class="userCode"></span>
+                                    *注册邮箱<span><input id="userCode" placeholder="请输入邮箱" name="userCode" type="text" ></span>
                                     <p id="userCode_msg" class="msg"></p>
 								</div>
 								<div style="margin-bottom: 16px">
@@ -137,7 +139,7 @@
 									<label for="agreement"><input id="agreement" type="checkbox" name="agreement">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
 								</div>
 								<div style="text-align: center">
-									<span><input id="reg_button" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpLogin'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+									<span><input id="reg_button" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpActivation'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
 								</div>
 								<div style="clear:both"></div><!--清除浮动-->
 							</div>
@@ -147,6 +149,8 @@
   				<div class="clearfix"></div>		
 		  </div>
 	</div>
+
+
 </div>
 </div>			
 	<!-- content-section-ends -->
@@ -166,35 +170,19 @@
             $("#emailOrPhone").html("*注册邮箱<span><input id=\"userCode\" placeholder=\"请输入邮箱\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n" +
                 "<p id=\"userCode_msg\" class=\"msg\"></p>");
 
-
         })
+
+
 
         //手机注册
         $("#phoneRadio").click(function () {
             $("#emailOrPhone").html("*注册手机<span><input id=\"userCode\" placeholder=\"请输入手机号\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n"+
                 "<p id=\"userCode_msg\" class=\"msg");
-        })
-
-
-
-	    //选择手机注册
-        $("#phoneRadio").click(function () {
-
-            //判断是否同意协议（手机注册）
-            $("#reg1_button").click(function () {
-                //不同意不给登录，并且给出提示
-                if(!$("#agreement1").attr("checked")){
-                    $("#msg1").css({"color":"red","text-align":"center"});
-                    $("#msg1").html("遵守《i旅行用户服务协议》才能注册！");
-                    return;
-                }
-                //同意，并且提交表单
-                $("#register").submit();
-            })
 
         })
-		//------------------------------------------------------------------------
-        //非空判断
+
+
+        //非空判断（点击注册按钮）
         $("#reg_button").click(function () {
             $("#nickName_msg").html("");
             $("#password_msg").html("");
@@ -217,14 +205,12 @@
                 return;
             }
 
-
-
-            //判断两次密码是否相同(邮箱)
+            //判断两次密码是否相同
             if ($("#password").val() != $("#rePassword").val()) {
                 $("#rePassword_msg").html("两次输入的密码不一致！");
                 return;
             }
-            //判断是否同意协议(邮箱注册)
+            //判断是否同意协议
             if (!$("#agreement").attr("checked")) {
                 $("#msg").css({"color": "red", "text-align": "center"});
                 $("#msg").html("遵守《i旅行用户服务协议》才能注册！");
@@ -235,9 +221,8 @@
             $("#register").submit();
         })
 
-
         //异步验证手机或邮箱是否已被注册
-        $(".userCode").bind("blur",function () {
+        $("#userCode").bind("blur",function () {
 
             var usercode = null;
             if($("#emailRadio").attr("checked")){
@@ -253,7 +238,6 @@
                 usercode=$("#userCode1").val();
 
             }
-
                 $.ajax({
                 type:"get",
                 url:"/user/findUserByUserCode.json",

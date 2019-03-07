@@ -43,12 +43,17 @@
 	<h5 id="login">
 
 		<div th:if="${session.loginUser}==null "> <!--eq null等于null-->
-		<a href="/jump/jumpLogin">登录/</a><a href="/jump/jumpRegister">注册/</a><a>注销</a>
+		<a href="/jump/jumpLogin">登录/</a><a href="/jump/jumpRegister">注册/</a><a href="/jump/jumpReActivation">激活</a>
 		</div>
-		<div th:if="${session.loginUser}!=null"> <!--ne null不等于null-->
+		<div th:if="${session.loginUser} ne null"> <!--ne null不等于null-->
 			<span>你好,</span><span th:text="${session.loginUser.userCode}"></span>
 			<a href="/jump/jumpLogin">个人中心/</a><a href="/user/logout.html">注销</a>
 		</div>
+        <!--th:if="${#object.type==2}" th:if="${#object.name=='user'}"-->
+		<!--<div th:if="${session.loginUser}!=null" th:if="${session.loginUser.getStatus()}!=1"> &lt;!&ndash;ne null不等于null&ndash;&gt;
+			<span>你好,</span><span th:text="${session.loginUser.userCode}"></span>
+			<a href="/jump/jumpLogin">个人中心/</a><a href="/jump/jumpReActivation">激活/</a><a href="/user/logout.html">注销</a>
+		</div>-->
 	</h5>
 	<div class="header">
 		<div class="container">

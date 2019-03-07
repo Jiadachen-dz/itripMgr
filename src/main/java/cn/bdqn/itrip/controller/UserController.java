@@ -22,6 +22,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "user")
 public class UserController {
+
     @Resource
     private UserService userService;
 
@@ -45,18 +46,22 @@ public class UserController {
         String passwordTemp = EncryptionUtil.md5Encryption(password);
         User user = userService.login(userCode,passwordTemp);
         //登录成功
-        if (user!=null){
+        if (user != null) {
             //帐号未激活
-            if (user.getStatus()!=1){
-                request.setAttribute("statusMsg","该帐号尚未激活!");
-            }
-            session.setAttribute("loginUser",user);
+            if (user.getStatus() != 1) {
+                request.setAttribute("msg", "该帐号尚未激活!");
+            } else {
+                session.setAttribute("loginUser", user);
 //            System.out.println((User)session.getAttribute("loginUser"));
                 return "index";
             }
+        } else {
             //登录失败
-            request.setAttribute("msg","用户名或密码不正确！");
-            return "login";
+            request.setAttribute("msg", "用户名或密码不正确！");
+        }
+
+
+        return "login";
     }
 
     /**
@@ -114,7 +119,8 @@ public class UserController {
     public String doRegister(@RequestParam("userCode") String userCode,
                            @RequestParam("nickName") String nickName,
                            @RequestParam("password") String password,
-                           HttpServletRequest request){
+                           HttpServletRequest request,
+                             HttpSession session){
         System.out.println(userCode+nickName+password);
             //MD5加密（密码加密）
             String passwordMd5 = EncryptionUtil.md5Encryption(password);
@@ -122,31 +128,77 @@ public class UserController {
             if (count>0){
                 //为注册用户生成激活码
                 String activeCode = UuidUtils.randomUUID()+ Calendar.getInstance().getTimeInMillis();
+                session.setAttribute(userCode,activeCode);
                 //发送邮箱
                 SendEmail.send(userCode,activeCode,jms);
-                request.setAttribute("msg","注册成功，请登录！");
-                return "login";
+                request.setAttribute("msg","注册成功，请激活账号！");
+                return "activation";
             }
             request.setAttribute("msg","注册失败,请重新注册！");
             return "register";
         }
 
-    public String activateAccount(@RequestParam("userCode") String userCode,
-                                  @RequestParam("ActivationCode")String ActivationCode,
-                                    HttpServletRequest request){
-        //判断激活码是否正确
-        if (!ActivationCode.equals("")){
 
+    /**
+     * 异步验证帐号是否已激活
+     * @param userCode   页面输入的帐号
+     * @return
+     */
+    @RequestMapping(value = "/findActivation.json")
+    @ResponseBody
+    public Object findActivation(@RequestParam("userCode") String userCode){
+        Map<String,Object> map = new HashMap<String,Object>();
+        if (userCode==null || "".equals(userCode.trim())){
+            map.put("userCode","empty");
+            return ToJsonUtil.toJson(map);
         }
-        //激活
-        int count = userService.updateStatus(userCode);
-        if (count>0){
-            request.setAttribute("msg","激活成功！");
-            return "success";
+        User user = userService.findUserByUserCode(userCode);
+        if (user!=null){     //判断用户是否存在
+            if (user.getStatus()==1){     //已激活
+                map.put("userCode","activated");
+            }else {     //未激活
+                map.put("userCode","notActive");
+            }
+        }else {
+            map.put("userCode","noExist");
+        }
+        System.out.println(map.get("userCode"));
+        System.out.println(ToJsonUtil.toJson(map));
+        return ToJsonUtil.toJson(map);
+    }
+
+    /**
+     * 激活帐号
+     * @param userCode     用户
+     * @param activationCode  页面输入的激活码
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "doActivateAccount.html")
+    public String doActivateAccount(@RequestParam("userCode") String userCode,
+                                  @RequestParam("activationCode")String activationCode,
+                                    HttpServletRequest request,HttpSession session){
+
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        //判断激活码是否正确
+        System.out.println(activationCode);
+        String activeCode = (String) session.getAttribute(userCode);
+        System.out.println("验证激活码："+activeCode);
+        if (activationCode.equals(activeCode)){
+            //激活
+            int count = userService.updateStatus(userCode);
+            if (count>0){
+                request.setAttribute("atMsg","激活成功！");
+                return "login";
+            }
+            //激活失败
+            request.setAttribute("atMsg","激活失败，激活码有误！");
+            return "activation";
         }
         //激活失败
-        request.setAttribute("msg","激活失败！");
-        return "fail";
+        request.setAttribute("atMsg","激活有误！");
+        return "activation";
     }
 
 }
