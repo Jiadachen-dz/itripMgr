@@ -83,4 +83,10 @@ public class JumpPageController {
         }
         return "activation";
     }
+
+    //跳转到房间页面
+    @RequestMapping(value = "/jumpRooms")
+    private String jumpRooms(){
+        return "rooms";
+    }
 }
