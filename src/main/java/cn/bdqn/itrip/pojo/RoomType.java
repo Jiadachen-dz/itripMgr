@@ -8,7 +8,7 @@ import java.util.Date;
 public class RoomType {
     private Integer id;                 //编号
     private Integer hotelId;            //酒店编号
-    private Integer roomBedTypeId;      //房间床型
+    private Integer roomBedTypeId;      //房间床型 1-双床 2-大床 3-多床
     private Integer isHavingBreakfast;  //是否有早餐
     private Integer payType;            //支付类型 1-在线付 2-到店付 3-不限
     private Integer isBook;             //是否预定

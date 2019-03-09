@@ -16,9 +16,9 @@ public class HotelController {
     private HotelService hotelService;
 
     /**
-     *
-     *
-     * @param request 遍历出酒店页面信息
+     * 查找所有酒店
+     *遍历出酒店页面信息
+     * @param request
      * @return
      */
     @RequestMapping(value = "/getHostList")
@@ -29,6 +29,10 @@ public class HotelController {
         return "booking";
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/findHost")
     private String findHost() {
         return "booking";

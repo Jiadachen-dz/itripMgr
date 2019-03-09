@@ -89,4 +89,10 @@ public class JumpPageController {
     private String jumpRooms(){
         return "rooms";
     }
+
+    //跳转到订单页面
+    @RequestMapping(value = "/jumpReservation")
+    private String jumpReservation(){
+        return "reservation";
+    }
 }

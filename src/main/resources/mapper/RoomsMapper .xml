@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.itrip.dao.RoomsMapper">
+
+<select id="getRoomTypeByHotelId" resultType="roomType">
+      SELECT * FROM roomtype where hotelId=#{hotelId}
+</select>
+
+      <select id="getHotelByhotelId" resultType="hotel">
+            SELECT ht.* FROM hotel ht,roomtype rt WHERE ht.id = rt.hotelId AND rt.hotelId = #{hotelId}
+      </select>
+</mapper>

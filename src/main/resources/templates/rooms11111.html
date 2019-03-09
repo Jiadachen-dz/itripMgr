@@ -41,10 +41,6 @@
     <style>
         td{border:0px;padding: 12px;}
 
-    /*分页start*/
-
-    /*分页end*/
-
     </style>
 </head>
 <body>
@@ -95,7 +91,6 @@
 	<!-- content-section-starts -->
 <div class="main_bg">
 <div class="container">
-
     <!--房间列表-->
 	<div class="room-main">
 		<div class="room-content">
@@ -106,7 +101,7 @@
 			</div>
             <div class="grids_of_2">
             <table cellpadding="0" cellspacing="0" id="roomTypeTal" style="text-align: center" width="100%">
-                <tr style="background: lightblue;font-style: italic;color: orange">
+                <tr style="background: #dedede;font-style: italic;color: #d6a204">
                     <td>房型</td>
                     <td>床型</td>
                     <td>早餐</td>
@@ -118,46 +113,82 @@
                     <td>
                         <img width="50px" height="50px" src="/images/r-pic4.jpg" alt="房型图片"/><br><span th:text="${room.roomTitle}"></span>
                     </td>
-                        <!--<td th:text="${room.roomBedTypeId}"></td>-->
-                        <td th:if="${room.roomBedTypeId} == 1">双床</td>
-                        <td th:if="${room.roomBedTypeId} == 2">大床</td>
-                        <td th:if="${room.roomBedTypeId} == 3">多床</td>
-
-                        <!--<td th:text="${room.isHavingBreakfast}"></td>-->
-                        <td th:if="${room.isHavingBreakfast}==1">包早餐</td>
-                        <td th:if="${room.isHavingBreakfast}!=1">无</td>
-
+                        <td th:text="${room.roomBedTypeId}"></td>
+                        <td th:text="${room.isHavingBreakfast}"></td>
                         <td>免费wifi</td>
-                        <td>￥<span th:text="${room.roomPrice}"></span></td>
-                        <td><input type="button" class="booking" value="预定" style="background: orange"></td>
+                        <td th:text="${room.roomPrice}"></td>
+                        <td>预定</td>
                 </tr>
             </table>
             </div>
 
 		<!--分页start-->
-
+			<div class="row">
+				<div class="col-sm-5">
+					<div class="dataTables_info" id="datatable-responsive_info"
+						 role="status" aria-live="polite">共${pageBean.totalCount }条记录
+						${pageBean.pageIndex }/${pageBean.totalPage }页</div>
+				</div>
+				<div class="col-sm-7">
+					<div class="dataTables_paginate paging_simple_numbers"
+						 id="datatable-responsive_paginate">
+						<ul class="pagination">
+							<c:if test="${pageBean.pageIndex > 1}">
+								<li class="paginate_button previous"><a
+										href="javascript:page_nav(document.forms[0],1);"
+										aria-controls="datatable-responsive" data-dt-idx="0"
+										tabindex="0">首页</a>
+								</li>
+								<li class="paginate_button "><a
+										href="javascript:page_nav(document.forms[0],${pageBean.pageIndex-1});"
+										aria-controls="datatable-responsive" data-dt-idx="1"
+										tabindex="0">上一页</a>
+								</li>
+							</c:if>
+							<c:if test="${pageBean.pageIndex < pageBean.totalPage }">
+								<li class="paginate_button "><a
+										href="javascript:page_nav(document.forms[0],${pageBean.pageIndex+1 });"
+										aria-controls="datatable-responsive" data-dt-idx="1"
+										tabindex="0">下一页</a>
+								</li>
+								<li class="paginate_button next"><a
+										href="javascript:page_nav(document.forms[0],${pageBean.totalPage });"
+										aria-controls="datatable-responsive" data-dt-idx="7"
+										tabindex="0">最后一页</a>
+								</li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</div>
 		<!--分页end-->
 
 		</div>
         <!--右边-->
 		<div class="sidebar">
+			 <div class="date_btn">
+				<form>
+					<input type="submit" value="现在预定" style="width: 82px;">
+				</form>
+			</div>
+			<h4>房间设施</h4>
 			<ul class="s_nav">
-
-                <form id="booking_time" action="/jump/jumpReservation">
                 <li  class="span1_of_1 left">
                     <h5>入住时间</h5>
                     <div class="book_date">
-                            <input class="date" id="comeInDate" name="comeInDate" type="date" placeholder="请输入入住时间">
+                        <form>
+                            <input class="date" id="datepicker" type="text" value="14/03/2019" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '14/03/2019';}">
+                        </form>
                     </div>
                 </li>
                 <li  class="span1_of_1 left">
                     <h5>退房时间</h5>
                     <div class="book_date">
-                            <input class="date" id="leaveDate" name="leaveDate" type="date" placeholder="请输入退房时间" >
+                        <form>
+                            <input class="date" id="datepicker1" type="text" value="15/03/2019" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '15/03/2019';}">
+                        </form>
                     </div>
                 </li>
-                </form>
-
 				<li><a href="#">Etiam malesuada leo ornare</a></li>
 				<li><a href="#">Sed eu magna sed lorem tincidunt</a></li>
 				<li><a href="#">Proin id diam eleifend neque auctor scelerisque.</a></li>
@@ -185,76 +216,5 @@
 	<!-- footer-section-ends -->
 
 </body>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript">
-    <!--分页start-->
 
-    <!--分页end-->
-    $(function () {
-        /**
-         * 规范入住日期
-         */
-        $("#comeInDate").blur(function () {
-            var comeInDate = $("#comeInDate").val();
-            if(comeInDate==''){
-                alert("入住日期不能为空");
-                return;
-            }
-            //这样设计只比较年月日
-            if(new Date(new Date(comeInDate).toLocaleDateString()) < new Date(new Date().toLocaleDateString())){
-                alert("入住时间不能小于当前时间");
-                $("#comeInDate").val("");
-                return;
-            }
-        });
-        /**
-         * 规范离开日期
-         */
-        $("#leaveDate").blur(function () {
-            var comeInDate = $("#comeInDate").val();
-            var leaveDate = $("#leaveDate").val();
-            if(comeInDate==''){
-                alert("请先选择入住日期");
-                $("#leaveDate").val("");
-                return;
-            }
-            if(leaveDate==''){
-                alert("离开日期不能为空");
-                return;
-            }
-            if(comeInDate >= leaveDate){
-                alert("离开时间必须大于入住时间");
-                $("#leaveDate").val("");
-                return;
-            }
-            var _comeInDate = new Date(comeInDate);
-            var _leaveDate = new Date(leaveDate);
-            var days = parseInt((_leaveDate.getTime() - _comeInDate.getTime())/ (1000 * 60 * 60 * 24));
-            //预订天数不能超过30天
-            if(days>30){
-                alert("预订天数不能超过30天");
-                $("#leaveDate").val("");
-                return;
-            }
-        });
-        /**
-         * 点击预定按钮
-         */
-        $(".booking").click(function () {
-            var comeInDate = $("#comeInDate").val();
-            var leaveDate = $("#leaveDate").val();
-            if(comeInDate=='' || leaveDate==''){
-                alert("入离日期不能为空");
-                return;
-            }
-            $("#booking_time").submit();
-        })
-        
-        
-        
-    })
-    
-
-
-</script>
 </html>
