@@ -21,7 +21,8 @@ public class RoomType {
     private Double satisfaction;        //满意度
     private Date creationDate;          //创建时间
     private Date modifyDate;            //修改时间
-
+    private String checkInDate;           //入住日期
+    private String checkOutDate;          //退房日期
     /**
      * 酒店
      */
@@ -31,6 +32,22 @@ public class RoomType {
 
     public Hotel getHotel() {
         return hotel;
+    }
+
+    public String getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(String checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public String getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public void setCheckOutDate(String checkOutDate) {
+        this.checkOutDate = checkOutDate;
     }
 
     public void setHotel(Hotel hotel) {

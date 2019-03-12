@@ -18,7 +18,7 @@ public class RoomsController {
 
     @RequestMapping(value = "/findRoomsByHotelId")
     private String findRoomsByHotelId(@RequestParam(value = "hotelId") Integer hotelId, Model model){
-        System.out.println("11111111111");
+        System.out.println(hotelId);
         List<RoomType> roomTypeList = roomsService.findRoomTypeByHotelId(hotelId);
         model.addAttribute("rooms",roomTypeList);
         System.out.println(roomTypeList);

@@ -5,6 +5,7 @@ import cn.bdqn.itrip.pojo.Hotel;
 import cn.bdqn.itrip.service.HotelService;
 import cn.bdqn.itrip.utils.PageBean;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,7 +29,7 @@ public class HotelController {
      * @return  按照特定条件显示出筛选的酒店
      */
     @RequestMapping(value = "/getHotelList")
-    private String getHost(HttpServletRequest request,
+    private String getHost(HttpServletRequest request,Model model,
                            @RequestParam(value = "hotelLevel",required = false) Integer hotelLevel,
                            @RequestParam(value = "hotelName",required = false) String hotelName,
                            @RequestParam(value = "countryId",required = false) Integer countryId,
@@ -41,7 +42,9 @@ public class HotelController {
         request.setAttribute("countryList",countryList);
         request.setAttribute("pageBean",pageBean);
         request.setAttribute("countryId",countryId);
-        System.out.println(countryId);
+        model.addAttribute("hotelLevel",hotelLevel);
+        System.out.println("hotelLevel==="+hotelLevel);
+        System.out.println(pageBean.getList());
         return "search";
 
     }

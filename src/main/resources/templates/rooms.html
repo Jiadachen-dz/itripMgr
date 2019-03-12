@@ -105,6 +105,7 @@
 				<p class="para">Lorem Ipsum的段落有许多变化，但是大多数都会通过注入幽默或者看起来不太可信的随机单词进行某种形式的改变。如果你打算使用一段Lorem Ipsum，你需要确保在文本中间没有隐藏任何尴尬。互联网上的所有Lorem Ipsum生成器都会重复出现。</p>
 			</div>
             <div class="grids_of_2">
+				<form id="booking_time" action="/order/findOrder">
             <table cellpadding="0" cellspacing="0" id="roomTypeTal" style="text-align: center" width="100%">
                 <tr style="background: lightblue;font-style: italic;color: orange">
                     <td>房型</td>
@@ -115,6 +116,7 @@
                     <td>操作</td>
                 </tr>
                 <tr th:each="room : ${rooms}">
+
                     <td>
                         <img width="50px" height="50px" src="/images/r-pic4.jpg" alt="房型图片"/><br><span th:text="${room.roomTitle}"></span>
                     </td>
@@ -132,6 +134,7 @@
                         <td><input type="button" class="booking" value="预定" style="background: orange"></td>
                 </tr>
             </table>
+				</form>
             </div>
 
 		<!--分页start-->
@@ -143,7 +146,7 @@
 		<div class="sidebar">
 			<ul class="s_nav">
 
-                <form id="booking_time" action="/jump/jumpReservation">
+                <!--<form id="booking_time" action="/jump/jumpReservation">-->
                 <li  class="span1_of_1 left">
                     <h5>入住时间</h5>
                     <div class="book_date">
