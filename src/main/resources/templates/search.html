@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+<title>Search</title>
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--webfont-->
+<link href='http://fonts.useso.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<link href='http://fonts.useso.com/css?family=Roboto:400,900italic,900,700italic,700,500italic,500,400italic,300,300italic,100italic,100' rel='stylesheet' type='text/css'>
+<script src="/js/easyResponsiveTabs.js" type="text/javascript"></script>
+		    <script type="text/javascript">
+			    $(document).ready(function () {
+			        $('#horizontalTab').easyResponsiveTabs({
+			            type: 'default', //Types: default, vertical, accordion           
+			            width: 'auto', //auto or any width like 600px
+			            fit: true   // 100% fit in a container
+			        });
+			    });
+</script>
+		<script src="/js/jquery.easydropdown.js" type="text/javascript"></script>
+	<!---strat-date-piker---->
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<script src="/js/jquery-ui.js"></script>
+		  <script>
+				  $(function() {
+				    $( "#datepicker,#datepicker1" ).datepicker();
+				  });
+				  function page_nav_down(frm){
+                      frm.pageIndex.value = new Number(frm.pageIndex.value)+1;
+                      frm.submit();
+                  }
+				  function page_nav_up(frm){
+                      frm.pageIndex.value = new Number(frm.pageIndex.value)-1;
+                      frm.submit();
+                  }
+                  function homePage(frm){
+                      frm.pageIndex.value = 1;
+                      frm.submit();
+                  }
+                  function tailPage(frm){
+                      frm.pageIndex.value = frm.totalPage.value;
+                      frm.submit();
+                  }
+		  </script>
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        var countryIdV= $("#countryIdV").val();
+        var select = document.getElementById("country");
+        var len = select.options.length;
+        for(var i=0;i<len;i++){
+            if(select.options[i].value==countryIdV){
+                select.options[i].selected=true;
+			}
+        }
+
+    })
+    function letGO(){
+        $("#southFrm").submit()
+
+	}
+</script>
+
+<!---/End-date-piker---->
+
+</head>
+<body>
+	<!-- header-starts -->
+	<div class="page-header">
+		<div class="container">
+			<div class="page-header-info">
+				<div class="page-header-info-head text-center">
+					<a href="index.html"><h1>酒店</h1></a>
+				</div>
+				<!-- start h_menu4 -->
+					<div class="h_menu4">
+					<a class="toggleMenu" href="">菜单</a>
+					<ul class="nav p-nav">
+						<li class="active"><a href="index.html">家</a></li>
+						<li><a href="booking.html">酒店</a>
+							<ul>
+								<<li><a href="booking.html">酒店列表</a></li>
+                                <li><a href="rooms.html">房间类型</a></li>
+                                <li><a href="reservation.html">房间预定</a></li>
+								<li><a href="booking.html">大城市酒店</a></li>
+								<li><a href="booking.html">small city hotels</a></li>
+							</ul>
+						</li>
+						<li><a href="payment.html">航班</a>
+							<ul>
+								<li><a href="payment.html">付款</a></li>
+								<li><a href="search.html">搜索</a></li>
+								<li><a href="search.html">列表</a></li>
+							</ul>
+						</li>
+						<li><a href="destination.html" class="root">目的地</a>
+							<ul>
+								<li><a href="destination.html">菲律宾</a></li>
+								<li><a href="destination.html">巴西</a></li>
+								<li><a href="destination.html">纽约</a></li>
+							</ul>
+						</li>
+							<li><a href="contact.html">接触</a></li>
+						</ul>
+						<script type="text/javascript" src="/js/nav.js"></script>
+				</div>
+				<!-- end h_menu4 -->
+			</div>
+		</div>
+	</div>
+	<!-- header-ends -->
+	<!-- content-section-starts -->
+	<div class="content-section">
+	<div class="container">
+     <h3 class="page-title">来了就不想再走</h3>
+  <p class="round"></p>
+<div class="reservation">
+<form id="southFrm" action="/hotel/getHotelList">
+					  <ul>	
+                             <li class="span1_of_1">
+							 <h5>目的地</h5>
+
+							 <div class="section_room">
+							      <select  id="country"  name="countryId" onchange="change_country(this.value)" class="frm-field required">
+										<option value="0">请选择</option>
+                                      <option th:value="${countryList.id}" th:each="countryList:${countryList}" th:text="${countryList.countryName}"></option>
+
+							      </select>
+								  <input id="countryIdV" type="hidden" th:value="${countryId}">
+							 </div>
+						 </li>	
+                             <li class="span1_of_1">
+							 <h5>星级选择</h5>
+
+							 <div class="section_room">
+							      <select name="hotelLevel" id="hotelLevel" onchange="change_country(this.value)" class="frm-field required">
+									  	<option value="0">请选择</option>
+									  	<option value="5">五星级酒店</option>
+										<option value="4">四星级酒店</option>
+										<option value="3">三星级酒店</option>
+										<option value="2">二星级酒店</option>
+									  	<option value="1">一星级酒店</option>
+							      </select>
+							 </div>	
+						 </li>
+
+						  <li  class="span1_of_1 left">
+							 <h5>入住时间</h5>
+							 <div class="book_date">
+								 <input class="date" id="datepicker" type="text" value="2/08/2013" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '2/08/2013';}">
+							 </div>
+						 </li>
+						 <li  class="span1_of_1 left">
+							 <h5>退房时间</h5>
+							 <div class="book_date">
+								<input class="date" id="datepicker1" type="text" value="22/08/2013" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '22/08/2013';}">
+						     </div>
+						 </li>
+						  <li class="span1_of_1 left">
+
+							  <div class="section_room">
+
+								  <input style="height: 36px;margin-top: 5px;width: 187px;" type="search" placeholder="快速查找酒店" name="hotelName"/>
+							  </div>
+						  </li>
+
+						 <div class="clearfix"></div>
+					 </ul>
+					<p class="round-trip"> <a href="#" style="margin-left: 15px" onclick="letGO()">Let Go</a></p>
+
+			<input type="hidden" name="pageIndex" th:value="${pageBean.pageIndex}">
+			<input type="hidden" name="totalPage" th:value="${pageBean.totalPage}">
+		</form>
+
+
+        <div class="container">
+            <div class="gap gap-small"></div>
+            <h3 class="mb20">Popular Flight Destinations</h3>
+            <div class="row row-wrap">
+				<div th:each="hotel:${pageBean.list}">
+					<div th:if="${hotel.hotelName ne null}" class="col-md-3 thumb">
+							<a class="hover-img" href=" /order/findOrder" style=" height: 216px;">
+								<span style="height: 236px;"><img th:src="${hotel.imgSrc}" alt="Image Alternative text"   /><h6 style="text-align: center">热线：<span th:text="${hotel.hotLine}"></span></h6></span>
+								<div class="hover-inner hover-inner-block hover-inner-bottom hover-inner-bg-black hover-hold">
+									<div class="text-small">
+										<h6><span th:text="${hotel.hotelName}"></span></h6>
+										<p>酒店星级:<span th:text="${hotel.hotelLevel}"></span></p>
+
+										<p class="mb0" th:text="${hotel.details}"></p>
+									</div>
+								</div>
+							</a>
+					</div>
+				</div>
+                <div class="gap"></div>
+            </div>
+
+</div>
+
+
+		<div id="record">
+			共 <span th:text="${pageBean.totalCount }"></span> 条记录
+			<span th:text="${pageBean.pageIndex }"></span>/<span th:text="${pageBean.totalPage }"></span>页
+
+
+
+			<span style="margin-left: 358px;" th:if="${pageBean.pageIndex > 1}">
+				<a href="javascript:homePage(document.forms[0],1);">首页</a>
+
+
+			<a href="javascript:page_nav_up(document.forms[0]);" style="margin-left: 10px;" d>上一页</a>
+				</span>
+
+
+			<span style="margin-left: 6px;" th:if ="${pageBean.pageIndex < pageBean.totalPage } " >
+				<a href="javascript:page_nav_down(document.forms[0]);" style="margin-left: 10px;">下一页</a>
+				<a href="javascript:tailPage(document.forms[0]);" style="margin-left: 10px;">最后一页</a>
+			</span>
+		</div>
+
+
+
+
+	<div class="footer">
+		<div class="copy-rights text-center">
+            <p>版权所有©2019.华立四大天王 天王保留所有版权.</p>
+		</div>			
+	</div>
+	<!-- footer-section-ends -->
+
+</body>
+</html>

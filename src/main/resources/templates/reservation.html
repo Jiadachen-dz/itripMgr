@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<meta charset="UTF-8">
 <html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 	<meta charset="UTF-8">
 <title>Reservation</title>
@@ -43,14 +46,14 @@
 		<div class="container">
 			<div class="page-header-info">
 				<div class="page-header-info-head text-center">
-					<a href="index.html"><h1>Travelica</h1></a>
+					<a href="index.html"><h1>预定</h1></a>
 				</div>
 				<!-- start h_menu4 -->
 					<div class="h_menu4">
 					<a class="toggleMenu" href="">Menu</a>
 					<ul class="nav p-nav">
-						<li class="active"><a href="index.html">HOME</a></li>
-						<li><a href="booking.html">Hotels</a>
+						<li class="active"><a href="index.html">家</a></li>
+						<li><a href="booking.html">酒店</a>
 							<ul>
 								<li><a href="booking.html">酒店列表</a></li>
 								<li><a href="rooms.html">房间类型</a></li>
@@ -59,21 +62,21 @@
 								<li><a href="booking.html">small city hotels</a></li>
 							</ul>
 						</li>
-						<li><a href="payment.html">Flights</a>
+						<li><a href="payment.html">航班</a>
 							<ul>
-								<li><a href="payment.html">payment</a></li>
-								<li><a href="search.html">search</a></li>
-								<li><a href="search.html">list</a></li>
+								<li><a href="payment.html">付款</a></li>
+								<li><a href="search.html">搜索</a></li>
+								<li><a href="search.html">列表</a></li>
 							</ul>
 						</li>
-						<li><a href="destination.html" class="root">Destinations</a>
+						<li><a href="destination.html" class="root">目的地</a>
 							<ul>
-								<li><a href="destination.html">philippines</a></li>
-								<li><a href="destination.html">brazil</a></li>
-								<li><a href="destination.html">new york</a></li>
+								<li><a href="destination.html">菲律宾</a></li>
+								<li><a href="destination.html">巴西</a></li>
+								<li><a href="destination.html">纽约</a></li>
 							</ul>
 						</li>
-							<li><a href="contact.html">Contact</a></li>
+							<li><a href="contact.html">联系人</a></li>
 						</ul>
 						<script type="text/javascript" src="/js/nav.js"></script>
 				</div>
@@ -87,28 +90,27 @@
 <div class="container">
 	<div class="res-main">
 		<div class="res_online">
-			<h4>basic information</h4>
+			<h4>基本情况</h4>
 			<p class="para">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
 		</div>			
 			<div class="span_of_2">
 				<div class="span2_of_1">
-					<h4>check-in:</h4>
+					<h4>登记入住:</h4>
 					<div class="book_date btm">
 						<form>
 							<input class="date" id="datepicker1" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
 						</form>
 					</div>	
 					<div class="sel_room">
-						<h4>number of rooms</h4>
+						<h4>房间类型</h4>
 						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">Select a type of Room</option>
-				            <option value="null">Suite room</option>         
-				            <option value="AX">Single room</option>
-							<option value="AX">Double room</option>
+				            <option value="null">套房</option>
+				            <option value="AX">单人房间</option>
+							<option value="AX">双人房间</option>
 		        		</select>
 					</div>	
 					<div class="sel_room left">
-						<h4>adults per room:</h4>
+						<h4>入住人数:</h4>
 						<select id="country" onchange="change_country(this.value)" class="frm-field required">
 							<option value="null">1</option>
 				            <option value="null">2</option>         
@@ -118,38 +120,38 @@
 					</div>	
 				</div>
 				<div class="span2_of_1">
-					<h4>check-out:</h4>
+					<h4>退房:</h4>
 					<div class="book_date btm">
 						<form>
 							<input class="date" id="datepicker1" type="text" value="DD/MM/YY" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'DD/MM/YY';}">
 						</form>
 					</div>	
-					<div class="sel_room">
-						<h4>childern 0-5:</h4>
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">0</option>
-							<option value="null">1</option>
-				            <option value="null">2</option>         
-				            <option value="AX">3</option>
-							<option value="AX">4</option>
-		        		</select>
-					</div>	
-					<div class="sel_room left">
-						<h4>childern 6-12:</h4>
-						<select id="country" onchange="change_country(this.value)" class="frm-field required">
-							<option value="null">0</option>
-							<option value="null">1</option>
-				            <option value="null">2</option>         
-				            <option value="AX">3</option>
-							<option value="AX">4</option>
-		        		</select>
+					<!--<div class="sel_room">-->
+						<!--<h4>价格:<span id="country" class="frm-field required">10元</span></h4>-->
+					</div>
+
+					<div class="sel_room left" style="margin-top: 20px;">
+						<table width="80%" border="1">
+							<tr>
+								<td>价格:</td><td>5</td>
+							</tr>
+							<tr>
+								<td>是否含早餐:</td>	<td  >1</td>
+							</tr>
+						</table>
+
+
+
+
+						<!--<h4>是否含早餐:<span id="country" class="frm-field required">不包</span></h4>-->
+
 					</div>	
 				</div>
 				<div class="clearfix"></div>
 			</div>
 			<div class="res_btn">
 				<form>
-					<input type="submit" value="book now" style="width: 280px;">
+					<input type="submit" value="立即下单" style="width: 280px;">
 				</form>
 			</div>
 	</div>
@@ -157,11 +159,13 @@
 </div>		
 	<!-- content-section-ends -->
 	<!-- footer-section-starts -->
-	<div class="footer">
-		<div class="copy-rights text-center">
-			<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="ģ��֮��">ģ��֮��</a> - Collect from <a href="http://www.cssmoban.com/" title="��ҳģ��" target="_blank">��ҳģ��</a></p>
-		</div>			
-	</div>
+
+		<div class="footer">
+			<div class="copy-rights text-center">
+				<p>版权所有©2019.华立四大天王 天王保留所有版权.</p>
+			</div>
+		</div>
+
 	<!-- footer-section-ends -->
 
 </body>

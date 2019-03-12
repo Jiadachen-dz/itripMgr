@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.itrip.dao.HotelMapper">
+<select id="getHotelList" resultMap="hotelMap" >
+    SELECT * FROM `hotel`
+    <trim prefix="where" prefixOverrides="and ||or">
+      <if test="hotelLevel !=null and hotelLevel !=0 " >
+        and hotelLevel = #{hotelLevel}
+      </if>
+      <if test="hotelName !=null and hotelName != '' " >
+         and  hotelName like concat('%',#{hotelName},'%')
+      </if>
+     <if test="countryId !=null and countryId != 0 ">
+         and countryId = #{countryId}
+     </if>
+    </trim>
+    order by hotelLevel DESC limit #{startRow},#{pageSize}
+</select>
+
+    <resultMap id="hotelMap" type="hotel">
+        <id column="id" property="id"/>
+        <result column="hotelName" property="hotelName"/>
+        <result column="countryId" property="countryId"/>
+        <result column="provinceId" property="provinceId"/>
+        <result column="cityId" property="cityId"/>
+        <result column="address" property="address"/>
+        <result column="hotLine" property="hotLine"/>
+        <result column="details" property="details"/>
+        <result column="hotelType" property="hotelType"/>
+        <result column="hotelLevel" property="hotelLevel"/>
+        <result column="facilities" property="facilities"/>
+        <result column="hotelPolicy" property="hotelPolicy"/>
+        <result column="isGroupPurchase" property="isGroupPurchase"/>
+        <result column="createdBy" property="createdBy"/>
+        <result column="creationDate" property="creationDate"/>
+        <result column="modifiedBy" property="modifiedBy"/>
+        <result column="modifyDate" property="modifyDate"/>
+        <result column="imgSrc" property="imgSrc"/>
+        <result column="countryName" property="countryName"/>
+
+        <collection property="roomTypes" ofType="roomType" resultMap="roomTypeMap"/>
+    </resultMap>
+
+        <resultMap id="roomTypeMap" type="roomType">
+            <id column="r_id" property="id"/>
+            <result column="hotelId" property="hotelId"/>
+            <result column="roomBedTypeId" property="roomBedTypeId"/>
+            <result column="isHavingBreakfast" property="isHavingBreakfast"/>
+            <result column="payType" property="payType"/>
+            <result column="isBook" property="isBook"/>
+            <result column="isCancel" property="isCancel"/>
+            <result column="isTimelyResponse" property="isTimelyResponse"/>
+            <result column="createdBy" property="createdBy"/>
+            <result column="modifiedBy" property="modifiedBy"/>
+            <result column="roomTitle" property="roomTitle"/>
+            <result column="roomPrice" property="roomPrice"/>
+            <result column="satisfaction" property="satisfaction"/>
+            <result column="creationDate" property="creationDate"/>
+            <result column="modifyDate" property="modifyDate"/>
+            <result column="modifiedBy" property="modifiedBy"/>
+    </resultMap>
+    <select id="count" resultType="int">
+          SELECT COUNT(1) FROM `hotel`
+          <trim prefix="where" prefixOverrides="and ||or">
+              <if test="hotelLevel !=null and hotelLevel !=0 " >
+                  and hotelLevel = #{hotelLevel}
+              </if>
+              <if test="hotelName !=null and hotelName != '' " >
+                  and  hotelName like concat('%',#{hotelName},'%')
+              </if>
+              <if test="countryId !=null and countryId != 0 ">
+                  and countryId = #{countryId}
+              </if>
+          </trim>
+    </select>
+
+    <select id="getCountryList" resultType="Country">
+          SELECT * FROM  country
+    </select>
+
+
+
+</mapper>

@@ -70,6 +70,8 @@ public class JumpPageController {
         return "activation";
     }
 
+
+
     //跳转到激活页面（登录成功后的激活）
     @RequestMapping(value = "/jumpReActivation")
     private String jumpReActivation(@RequestParam(value = "userCode",required = false) String userCode,
