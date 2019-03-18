@@ -47,7 +47,7 @@
 		</div>
 		<div th:if="${session.loginUser} ne null"> <!--ne null不等于null-->
 			<span>你好,</span><span th:text="${session.loginUser.userCode}"></span>
-			<a href="/jump/jumpLogin">个人中心/</a><a href="/user/logout.html">注销</a>
+			<a href="/personalCenter/jumpPersonalCenter">个人中心/</a><a href="/user/logout.html">注销</a>
 		</div>
         <!--th:if="${#object.type==2}" th:if="${#object.name=='user'}"-->
 		<!--<div th:if="${session.loginUser}!=null" th:if="${session.loginUser.getStatus()}!=1"> &lt;!&ndash;ne null不等于null&ndash;&gt;

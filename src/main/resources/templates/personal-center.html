@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人中心</title>
+    <!--========= Scripts ===========-->
+    <script src="/js/jquery-latest.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/wow.min.js"></script>
+    <script src="/js/custom.js"></script>
+
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--webfont-->
+<link href='http://fonts.useso.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<link href='http://fonts.useso.com/css?family=Roboto:400,900italic,900,700italic,700,500italic,500,400italic,300,300italic,100italic,100' rel='stylesheet' type='text/css'>
+<script src="/js/easyResponsiveTabs.js" type="text/javascript"></script>
+		    <script type="text/javascript">
+			    $(document).ready(function () {
+			        $('#horizontalTab').easyResponsiveTabs({
+			            type: 'default', //Types: default, vertical, accordion           
+			            width: 'auto', //auto or any width like 600px
+			            fit: true   // 100% fit in a container
+			        });
+			    });
+</script>
+		<script src="/js/jquery.easydropdown.js" type="text/javascript"></script>
+	<!---strat-date-piker---->
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<script src="/js/jquery-ui.js"></script>
+		  <script>
+				  $(function() {
+				    $( "#datepicker,#datepicker1" ).datepicker();
+				  });
+		  </script>
+<!---/End-date-piker---->
+
+    <style>
+        td{border:0px;padding: 12px;}
+
+		#dateUl{
+			margin-top: 20px;
+		}
+		#dateUl li{
+			float: left;
+			list-style-type: none;
+			margin-right: 10px;
+		}
+		#dateUl label{
+			color:#000;
+			font-weight: bold;
+		}
+		.x_content{
+			font-size: 10px;
+			margin-left: -20px;
+		}
+		.x_content input{
+			width: 100px;
+			height: 24px;
+		}
+		#myTabs li a{
+			padding: 4px 18px;
+		}
+
+    /*分页start*/
+
+    /*分页end*/
+
+    </style>
+</head>
+<body>
+<!-- header-starts -->
+<div class="page-header">
+	<div class="container">
+		<div class="page-header-info">
+			<div class="page-header-info-head text-center">
+				<a href="index.html"><h1>i旅行</h1></a>
+			</div>
+			<!-- start h_menu4 -->
+			<div class="h_menu4">
+				<a class="toggleMenu" href="">Menu</a>
+				<ul class="nav p-nav">
+					<li class="active"><a href="/jump/jumpHome">首页</a></li>
+					<li><a href="/jump/jumpHotel">酒店</a>
+						<ul>
+							<li><a href="booking.html">酒店列表</a></li>
+							<li><a href="rooms.html">房间类型</a></li>
+							<li><a href="reservation.html">房间预定</a></li>
+							<li><a href="booking.html">大城市的酒店</a></li>
+							<li><a href="booking.html">小城市的酒店</a></li>
+						</ul>
+					</li>
+					<li><a href="/jump/jumpPayment">机票</a>
+						<ul>
+							<li><a href="/jump/jumpPayment">付款</a></li>
+							<li><a href="/jump/jumpSearch">搜索</a></li>
+							<li><a href="/jump/jumpSearch">列表</a></li>
+						</ul>
+					</li>
+					<li><a href="/jump/jumpDestination" class="root">旅游</a>
+						<ul>
+							<li><a href="/jump/jumpDestination">菲力宾</a></li>
+							<li><a href="/jump/jumpDestination">巴西</a></li>
+							<li><a href="/jump/jumpDestination">纽约</a></li>
+						</ul>
+					</li>
+					<li><a href="/jump/jumpContact">联系</a></li>
+				</ul>
+				<script type="text/javascript" src="/js/nav.js"></script>
+			</div>
+			<!-- end h_menu4 -->
+		</div>
+	</div>
+</div>
+<!-- header-ends -->
+	<!-- content-section-starts -->
+<div class="main_bg">
+<div class="container">
+
+    <!--房间列表-->
+	<div class="room-main">
+		<div class="room-content">
+                <div id="order_list" style="margin-top: -256px">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist" id="myTabs">
+                        <li role="presentation" class="active"><a href="#listDiv" aria-controls="allOrder" role="tab" data-toggle="tab" id="allOrder">全部订单</a></li>
+                        <li role="presentation"><a href="#listDiv" aria-controls="home" role="tab" data-toggle="tab" id="notTravel">未出行</a></li>
+                        <li role="presentation"><a href="#listDiv" aria-controls="profile" role="tab" data-toggle="tab" id="notPayment">待付款</a></li>
+                        <li role="presentation"><a href="#listDiv" aria-controls="messages" role="tab" data-toggle="tab" id="notEvaluation">待评价</a></li>
+                        <li role="presentation"><a href="#listDiv" aria-controls="settings" role="tab" data-toggle="tab" id="cancelled">已取消</a></li>
+                    </ul>
+                    <form action="" id="pageFrm">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="listDiv">
+                                <div class="x_content">
+                                    <ul id="dateUl">
+                                        <li>
+                                            <label for="orderNo">订单号:</label>
+                                            <input type="text" id='orderNo' name="orderNo">
+                                        </li>
+                                        <li>
+                                            <label for="guest">旅客:</label>
+                                            <input type="text" id='guest'name="linkUserName">
+                                        </li>
+                                        <li>
+                                            <label for="comeInDate">预订日期:</label>
+                                            <input type="date" id='comeInDate' name="checkInDate" style="width: 135px;">
+                                        </li>
+                                        <li>
+                                            <label for="leaveDate">结束日期:</label>
+                                            <input type="date" id='leaveDate' name="checkOutDate" style="width: 135px;">
+                                        </li>
+                                        <li><input id="likeQueryBtn" type="button" class="btn btn-primary" style="padding: 3px 12px;margin-left: 20px; margin-top: -3px;width: 62px;height: 28px" value="搜&nbsp;&nbsp;索"></li>
+                                    </ul>
+                                </div>
+                                <div align="center" style="padding-top: 50px;">
+                                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+                                           cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="First name: activate to sort column descending"
+                                                aria-sort="ascending">订单号</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                类型</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                旅客</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                行程/有效日期</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                总金额</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                订单状态</th>
+                                            <th class="sorting" tabindex="0"
+                                                aria-controls="datatable-responsive" rowspan="1" colspan="1"
+                                                style="width: 124px;"
+                                                aria-label="Last name: activate to sort column ascending">
+                                                操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="listTBody">
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div class="dataTables_info" id="datatable-responsive_info" style="float: left;"
+                                                 role="status" aria-live="polite">共<span id="totalCount">n</span>条记录
+                                                <span id="pageIndex">n</span>/<span id="totalPage">n</span></div>
+                                            <input type="hidden" id="pageIndexV" name="pageIndex" value="1">
+                                            <input type="hidden" id="totalPageV" name="totalPage" value="">
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="dataTables_paginate paging_simple_numbers"
+                                                 id="datatable-responsive_paginate" style="float: right">
+                                                <ul class="pagination">
+                                                    <!--<c:if test="${pageBean.pageIndex > 1}">-->
+                                                    <li class="paginate_button previous upDiv"><a
+                                                            href="javascript:void (0);"
+                                                            aria-controls="datatable-responsive" data-dt-idx="0"
+                                                            tabindex="0" id="firstPage">首页</a>
+                                                    </li>
+                                                    <li class="paginate_button upDiv"><a
+                                                            href="javascript:void (0);"
+                                                            aria-controls="datatable-responsive" data-dt-idx="1"
+                                                            tabindex="0" id="upPage">上一页</a>
+                                                    </li>
+                                                    <!--</c:if>-->
+                                                    <!--<c:if test="${pageBean.pageIndex < pageBean.totalPage }">-->
+                                                    <li class="paginate_button downDiv"><a
+                                                            href="javascript:void(0);"
+                                                            aria-controls="datatable-responsive" data-dt-idx="1"
+                                                            tabindex="0" id="downPage">下一页</a>
+                                                    </li>
+                                                    <li class="paginate_button next downDiv"><a
+                                                            href="javascript:void(0);"
+                                                            aria-controls="datatable-responsive" data-dt-idx="7"
+                                                            tabindex="0" id="lastPage">最后一页</a>
+                                                    </li>
+                                                    <!--</c:if>-->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="orderStatus" id="orderStatus">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+		<!--分页start-->
+
+		<!--分页end-->
+
+		</div>
+        <!--右边-->
+		<div class="sidebar">
+			<ul class="s_nav">
+				<h4>订单</h4>
+				<li><a href="#">全部订单</a></li>
+				<li><a href="#">旅游</a></li>
+				<li><a href="#">酒店</a></li>
+				<li><a href="#">机票</a></li>
+				<li><a href="#" active>个人中心</a></li>
+			</ul>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+</div>	
+	<!-- content-section-ends -->
+	<!-- footer-section-starts -->
+	<div class="footer">
+		<div class="copy-rights text-center">
+			<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="ģ��֮��">ģ��֮��</a> - Collect from <a href="http://www.cssmoban.com/" title="��ҳģ��" target="_blank">��ҳģ��</a></p>
+		</div>
+	</div>
+
+	<!-- footer-section-ends -->................
+
+</body>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript">
+    <!--分页start-->
+
+    <!--分页end-->
+    $(function () {
+        /**
+         * 规范离开日期
+         */
+        $("#leaveDate").blur(function () {
+            var comeInDate = $("#comeInDate").val();
+            var leaveDate = $("#leaveDate").val();
+            if(leaveDate!=''&& comeInDate!='' && comeInDate >= leaveDate){
+                alert("离开时间必须大于入住时间");
+                $("#leaveDate").val("");
+                return;
+            }
+        });
+
+        // 模板
+        $('#myTabs a').click(function () {
+            $(this).tab('show');
+        })
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            e.target // newly activated tab
+            e.relatedTarget // previous active tab
+        })
+        $("#allOrder").click(function () {
+            $("#orderStatus").val("");
+            var serialize = $("#pageFrm").serialize();
+            getOrders(serialize);
+        })
+        $("#notTravel").click(function () {
+            $("#orderStatus").val(2);
+            var serialize = $("#pageFrm").serialize();
+            getOrders(serialize);
+        })
+        $("#notPayment").click(function () {
+            $("#orderStatus").val(0);
+            var serialize = $("#pageFrm").serialize();
+            getOrders(serialize);
+        })
+        $("#notEvaluation").click(function () {
+            $("#orderStatus").val(3);
+            var serialize = $("#pageFrm").serialize();
+            getOrders(serialize);
+        })
+        $("#cancelled").click(function () {
+            $("#orderStatus").val(1);
+            var serialize = $("#pageFrm").serialize();
+            getOrders(serialize);
+        })
+        
+        
+        
+    })
+    
+
+
+</script>
+</html>

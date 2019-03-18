@@ -97,4 +97,10 @@ public class JumpPageController {
     private String jumpReservation(){
         return "reservation";
     }
+
+    //跳转到支付页面
+    @RequestMapping(value = "/jumpAlipayTest")
+    private String jumpAlipayTest(){
+        return "alipayTest";
+    }
 }

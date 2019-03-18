@@ -113,12 +113,11 @@
 				<div class="contact_right" style="width: 600px;margin-left: 264px">
 				  <div class="contact-form">
 				  	<h3 style="text-align:center;">欢迎注册</h3>
-					    <form id="register" style="margin-top: 16px" method="post" action="/user/doRegister.html">
-							<label for="emailRadio"><input id="emailRadio" name="reg_choose" style="margin-left: -68px" type="radio" checked>邮箱注册</label>  <label for="phoneRadio"><input id="phoneRadio" name="reg_choose" style="margin-left: 60px" type="radio">手机注册</label>
-
-                            <!--注册-->
-							<div>
-								<div id="emailOrPhone" style="margin-bottom: 16px">
+					  <label for="emailRadio"><input id="emailRadio" name="reg_choose" style="margin-left: -68px" type="radio" checked>邮箱注册</label>  <label for="phoneRadio"><input id="phoneRadio" name="reg_choose" style="margin-left: 60px" type="radio">手机注册</label>
+					  <!--邮箱注册 start ***********************************************************************-->
+					  <div id="emailRegister" style="display: block">
+					    <form id="email_form" style="margin-top: 16px" method="post" action="/user/doRegister.html">
+								<div id="email" style="margin-bottom: 16px">
                                     *注册邮箱<span><input id="userCode" placeholder="请输入邮箱" name="userCode" type="text" ></span>
                                     <p id="userCode_msg" class="msg"></p>
 								</div>
@@ -135,15 +134,47 @@
                                     <p id="rePassword_msg" class="msg"></p>
 								</div>
 								<div id="msg" style="text-align: center;color: red"></div>
-								<div style="text-align: center">
-									<label for="agreement"><input id="agreement" type="checkbox" name="agreement">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
-								</div>
-								<div style="text-align: center">
-									<span><input id="reg_button" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpActivation'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
-								</div>
-								<div style="clear:both"></div><!--清除浮动-->
-							</div>
 					    </form>
+				  	</div>
+					  <!--邮箱注册end ********************************************************************** -->
+
+					  <!--手机注册 start ***********************************************************************-->
+					  <div id="phoneRegister" style="display: none">
+						  <form id="phone_form" style="margin-top: 16px" method="post" action="/user/doRegisterByPhone.html">
+							  <div id="phone" style="margin-bottom: 16px">
+								  *注册手机<span><input id="phone_userCode" placeholder="请输入手机" name="phone_userCode" type="text" ></span>
+								  <p id="phone_userCode_msg" class="msg"></p>
+							  </div>
+							  <div style="margin-bottom: 16px">
+								  *昵称<span><input id="phone_nickName" placeholder="请输入昵称" name="phone_nickName" type="text"></span>
+								  <p id="phone_nickName_msg" class="msg"></p>
+							  </div>
+							  <div style="margin-bottom: 16px">
+								  *登录密码<span><input id="phone_password" placeholder="请输入密码" name="phone_password" type="password" class="pass"></span>
+								  <p id="phone_password_msg" class="msg"></p>
+							  </div>
+							  <div style="margin-bottom: 16px">
+								  *确认密码<span><input id="phone_rePassword" placeholder="请输入确认密码" name="phone_rePassword" type="password" class="pass"></span>
+								  <p id="phone_rePassword_msg" class="msg"></p>
+							  </div>
+							  <div id="phone_msg" style="text-align: center;color: red"></div>
+							  <!--<div style="text-align: center">
+								  <label for="phone_agreement"><input id="phone_agreement" type="checkbox">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
+							  </div>
+							  <div style="text-align: center">
+								  <span><input id="phone_reg_button" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpActivation'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+							  </div>
+							  <div style="clear:both"></div>&lt;!&ndash;清除浮动&ndash;&gt;-->
+						  </form>
+					  </div>
+					  <!--手机注册end ********************************************************************** -->
+                      <div style="text-align: center">
+                          <label for="agreement"><input id="agreement" type="checkbox" name="agreement">我已经阅读并同意遵守<a href="https://www.baidu.com/">《i旅行用户服务协议》</a></label>
+                      </div>
+                      <div style="text-align: center">
+                          <span><input id="reg_button" class="mg" type="button" value="同意协议注册" style="float: left;margin-left: 127px;margin-top: 10px;"><input class="mg" type="button" value="激活已有帐号" onclick="location.href='/jump/jumpActivation'" style="float: left;margin-left: 127px;margin-top: 10px;"></span>
+                      </div>
+                      <div style="clear:both"></div><!--清除浮动-->
 				    </div>
   				</div>		
   				<div class="clearfix"></div>		
@@ -164,102 +195,186 @@
 
 <script type="text/javascript">
 	$(function () {
+        var phoneNumReg=null;  //手机的正则表达式
+        var filter=null;    //邮箱的正则表达式
 
-	    //邮箱注册
+//邮箱注册 start **************************************************************
         $("#emailRadio").click(function () {
-            $("#emailOrPhone").html("*注册邮箱<span><input id=\"userCode\" placeholder=\"请输入邮箱\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n" +
-                "<p id=\"userCode_msg\" class=\"msg\"></p>");
+            // if ($("#emailRadio").attr("checked")) {
+            alert("邮箱注册");
+            // $("#phoneRadio").removeAttr("checked");  //移出单选按钮的选中
+            $("#emailRegister").css({"display":"block"});
+            $("#phoneRegister").css({"display":"none"});
 
-        })
+            //非空判断（点击注册按钮）
+            $("#reg_button").click(function () {
+                $("#userCode_msg").html("");
+                $("#nickName_msg").html("");
+                $("#password_msg").html("");
+                $("#rePassword_msg").html("");
+                $("#msg").html("");
 
-
-
-        //手机注册
-        $("#phoneRadio").click(function () {
-            $("#emailOrPhone").html("*注册手机<span><input id=\"userCode\" placeholder=\"请输入手机号\" name=\"userCode\" type=\"text\" class=\"userCode\"></span>\n"+
-                "<p id=\"userCode_msg\" class=\"msg");
-
-        })
-
-
-        //非空判断（点击注册按钮）
-        $("#reg_button").click(function () {
-            $("#nickName_msg").html("");
-            $("#password_msg").html("");
-            $("#rePassword_msg").html("");
-            $("#msg").html("");
-
-            if ($("#userCode_msg").html()=="邮箱/手机不能为空！" ||$("#userCode_msg").html()=="该邮箱/手机已被注册，不可用！") {
-                return;
-            }
-            if ($("#nickName").val().trim() == '') {
-                $("#nickName_msg").html("昵称不能为空！");
-                return;
-            }
-            if ($("#password").val().trim() == '') {
-                $("#password_msg").html("密码不能为空！");
-                return;
-            }
-            if ($("#rePassword").val().trim() == '') {
-                $("#rePassword_msg").html("确认密码不能为空！");
-                return;
-            }
-
-            //判断两次密码是否相同
-            if ($("#password").val() != $("#rePassword").val()) {
-                $("#rePassword_msg").html("两次输入的密码不一致！");
-                return;
-            }
-            //判断是否同意协议
-            if (!$("#agreement").attr("checked")) {
-                $("#msg").css({"color": "red", "text-align": "center"});
-                $("#msg").html("遵守《i旅行用户服务协议》才能注册！");
-                return;
-            }
-            // alert($("#register").serialize())
-            //同意，并且提交表单
-            $("#register").submit();
-        })
-
-        //异步验证手机或邮箱是否已被注册
-        $("#userCode").bind("blur",function () {
-
-            var usercode = null;
-            if($("#emailRadio").attr("checked")){
-                //邮箱格式验证
-                usercode=$("#userCode").val();
-                var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                if (!filter.test(usercode)){
-                    $("#userCode_msg").html("邮箱格式不正确！");
+                if ($("#userCode_msg").html()=="邮箱不能为空！" ||$("#userCode_msg").html()=="该邮箱已被注册，不可用！") {
                     return;
                 }
-            }else{
-                //手机格式验证
-                usercode=$("#userCode1").val();
-
-            }
-                $.ajax({
-                type:"get",
-                url:"/user/findUserByUserCode.json",
-                data:{userCode:usercode},
-                dataType:"json",
-                success:function (data) {
-                    // alert(data);
-                    if (data.userCode == "empty"){
-                        $("#userCode_msg").html("邮箱/手机不能为空！");
-                    }else if (data.userCode == "exist") {
-                        $("#userCode_msg").html("该邮箱/手机已被注册，不可用！");
-                    }else if (data.userCode == "noExist"){
-                        $("#userCode_msg").html("");
-                    }
-                },
-                error:function (data) {
-                    alert("请求错误！")
+                if ($("#nickName").val().trim() == '') {
+                    $("#nickName_msg").html("昵称不能为空！");
+                    return;
                 }
+                if ($("#password").val().trim() == '') {
+                    $("#password_msg").html("密码不能为空！");
+                    return;
+                }
+                if ($("#rePassword").val().trim() == '') {
+                    $("#rePassword_msg").html("确认密码不能为空！");
+                    return;
+                }
+
+                //判断两次密码是否相同
+                if ($("#password").val() != $("#rePassword").val()) {
+                    $("#rePassword_msg").html("两次输入的密码不一致！");
+                    return;
+                }
+                //判断是否同意协议
+                if (!$("#agreement").attr("checked")) {
+                    $("#msg").css({"color": "red", "text-align": "center"});
+                    $("#msg").html("遵守《i旅行用户服务协议》才能注册！");
+                    return;
+                }
+                // alert($("#register").serialize())
+                //同意，并且提交表单
+                $("#email_form").submit();
             })
+
+            //异步验证邮箱是否已被注册
+            $("#userCode").bind("blur",function () {
+                var usercode = null;
+                    //邮箱格式验证
+                    usercode=$("#userCode").val();
+                    if (usercode=='') {
+                        $("#userCode_msg").html("邮箱不能为空！");
+                        return;
+                    }
+                    filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                    if (!filter.test(usercode)){
+                        $("#userCode_msg").html("邮箱格式不正确！");
+                        return;
+                    }
+                $.ajax({
+                    type:"get",
+                    url:"/user/findUserByUserCode.json",
+                    data:{userCode:usercode},
+                    dataType:"json",
+                    success:function (data) {
+                        //邮箱注册
+                            alert("邮箱验证");
+                            if (data.userCode == "empty"){
+                                $("#userCode_msg").html("邮箱不能为空！");
+                            }else if (data.userCode == "exist") {
+                                $("#userCode_msg").html("该邮箱已被注册，不可用！");
+                            }else if (data.userCode == "noExist"){
+                                $("#userCode_msg").html("");
+                            }
+                    },
+                    error:function (data) {
+                        alert("请求错误！")
+                    }
+                })
+            })
+
         })
+//邮箱验证end ********************************************************
 
 
+
+
+//手机注册start-------------------------------------------------------------------------
+        $("#phoneRadio").click(function () {
+        // if ($("#phoneRadio").attr("checked")) {
+            alert("手机注册");
+            // $("#emailRadio").removeAttr("checked");  //移出单选按钮的选中
+            $("#emailRegister").css({"display": "none"});
+            $("#phoneRegister").css({"display": "block"});
+
+            //非空判断（点击注册按钮）
+            $("#reg_button").click(function () {
+                $("#nickName_msg").html("");
+                $("#phone_password_msg").html("");
+                $("#phone_rePassword_msg").html("");
+                $("#phone_msg").html("");
+
+                if ($("#phone_userCode_msg").html()=="手机不能为空！" ||$("#phone_userCode_msg").html()=="手机已被注册，不可用！") {
+                    return;
+                }
+                if ($("#phone_nickName").val().trim() == '') {
+                    $("#nickName_msg").html("昵称不能为空！");
+                    return;
+                }
+                if ($("#phone_password").val().trim() == '') {
+                    $("#phone_password_msg").html("密码不能为空！");
+                    return;
+                }
+                if ($("#phone_rePassword").val().trim() == '') {
+                    $("#phone_rePassword_msg").html("确认密码不能为空！");
+                    return;
+                }
+
+                //判断两次密码是否相同
+                if ($("#phone_password").val() != $("#phone_rePassword").val()) {
+                    $("#phone_rePassword_msg").html("两次输入的密码不一致！");
+                    return;
+                }
+                //判断是否同意协议
+                if (!$("#agreement").attr("checked")) {
+                    $("#phone_msg").css({"color": "red", "text-align": "center"});
+                    $("#phone_msg").html("遵守《i旅行用户服务协议》才能注册！");
+                    return;
+                }
+                // alert($("#register").serialize())
+                //同意，并且提交表单
+                $("#phone_form").submit();
+            })
+
+            //异步验证手机是否已被注册
+            $("#phone_userCode").bind("blur",function () {
+                alert("进入手机验证");
+                //手机格式验证
+                alert($("#phone_userCode").val());
+                if ($("#phone_userCode").val() == '') {
+                    $("#phone_userCode_msg").html("手机不能为空！");
+                    return;
+                }
+                <!--表示以1开头，第二位可能是3/4/5/7/8等的任意一个，在加上后面的\d表示数字[0-9]的9位，总共加起来11位结束。-->
+                phoneNumReg = /^1[3|4|5|7|8]\d{9}$/
+                if (!phoneNumReg.test($("#phone_userCode").val())) {
+                    $("#phone_userCode_msg").html("手机格式不正确，请重填，手机号码11位数字，目前支持前两位13、14、15、16、17、18手机号码！");
+                    return;
+                }
+                $.ajax({
+                    type:"get",
+                    url:"/user/findUserByUserCode.json",
+                    data:{phone_userCode:$("#phone_userCode").val()},
+                    dataType:"json",
+                    success:function (data) {
+                        alert("手机异步验证");
+                        alert(data.phone_userCode);
+                        if (data.phone_userCode == "empty"){
+                            $("#phone_userCode_msg").html("手机不能为空！");
+                        }else if (data.phone_userCode == "exist") {
+                            $("#phone_userCode_msg").html("手机已被注册，不可用！");
+                        }else if (data.phone_userCode == "noExist"){
+                            $("#phone_userCode_msg").html("");
+                        }
+                    },
+                    error:function (data) {
+                        alert("请求错误！")
+                    }
+                })
+            })
+
+
+        })
+//手机注册end-------------------------------------------------------------------------
 
 
     })

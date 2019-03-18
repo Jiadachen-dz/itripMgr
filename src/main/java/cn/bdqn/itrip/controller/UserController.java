@@ -86,30 +86,46 @@ public class UserController {
      */
     @RequestMapping(value = "/findUserByUserCode.json")
     @ResponseBody
-    public Object findUserByUserCode(@RequestParam("userCode") String userCode,
+    public Object findUserByUserCode(@RequestParam(value = "userCode",required = false) String userCode,
+                                     @RequestParam(value = "phone_userCode",required = false) String phone_userCode,
                                      HttpServletRequest request){
         System.out.println("验证邮箱/手机是否已被注册！");
         Map<String,Object> map = new HashMap<String,Object>();
-        if (userCode==null || "".equals(userCode.trim())){
-            map.put("userCode","empty");
-            return ToJsonUtil.toJson(map);
-        }
-        User user = userService.findUserByUserCode(userCode);
-        if (user!=null){
-            map.put("userCode","exist");
+        if (userCode!=null){
+            if (userCode==null || "".equals(userCode.trim())){
+                map.put("userCode","empty");
+                return ToJsonUtil.toJson(map);
+            }
+            User user = userService.findUserByUserCode(userCode);
+            if (user!=null){
+                map.put("userCode","exist");
 //            request.setAttribute("tips","该用户可用");
+            }else {
+                map.put("userCode","noExist");
+            }
         }else {
-            map.put("userCode","noExist");
+            if (phone_userCode==null || "".equals(phone_userCode.trim())){
+                map.put("phone_userCode","empty");
+                return ToJsonUtil.toJson(map);
+            }
+            User user = userService.findUserByUserCode(userCode);
+            if (user!=null){
+                map.put("phone_userCode","exist");
+//            request.setAttribute("tips","该用户可用");
+            }else {
+                map.put("phone_userCode","noExist");
+            }
         }
+
 //        request.setAttribute("tips","该用户已被注册，请更换用户");
-        System.out.println(map.get("userCode"));
+//        System.out.println(map.get("userCode"));
         System.out.println(ToJsonUtil.toJson(map));
         return ToJsonUtil.toJson(map);
     }
 
     /**
-     * 注册
-     * @param userCode  邮箱/手机
+     * 邮箱注册
+     * @param userCode  邮箱
      * @param nickName  昵称
      * @param password  密码
      * @param request
@@ -138,7 +154,40 @@ public class UserController {
             return "register";
         }
 
+    /**
+     * 手机注册
+     * @param phone_userCode  手机号
+     * @param phone_nickName  昵称
+     * @param phone_password  密码
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "doRegisterByPhone.html")
+    public String doRegisterByPhone(@RequestParam("phone_userCode") String phone_userCode,
+                             @RequestParam("phone_nickName") String phone_nickName,
+                             @RequestParam("phone_password") String phone_password,
+                             HttpServletRequest request,
+                             HttpSession session){
+        System.out.println("phone_userCode的值"+phone_userCode);
+        String phone=phone_userCode;
+        String nickName=phone_nickName;
+        String password=phone_password;
+        //MD5加密（密码加密）
+        String passwordMd5 = EncryptionUtil.md5Encryption(password);
+        int count = userService.register(phone, nickName, passwordMd5);
+        if (count>0){
+            //为注册用户生成验证码
+            String activeCode = null;
 
+            session.setAttribute(phone,activeCode);
+            //发送验证码
+            request.setAttribute("phone_msg","注册成功，请激活账号！");
+            return "activation";
+        }
+        request.setAttribute("phone_msg","注册失败,请重新注册！");
+        return "register";
+    }
     /**
      * 异步验证帐号是否已激活
      * @param userCode   页面输入的帐号

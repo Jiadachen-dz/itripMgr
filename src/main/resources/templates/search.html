@@ -3,8 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <style>
+        .so{
+            width: 100%;
+            color: #858585;
+            font-size: 1em;
+            padding: 7px;
+            outline: none;
+            margin: 5px 0;
+            background: #ffffff;
+            border: 1px solid #DFDFDF;
+            box-shadow: inset 0 0 2px rgb(236, 236, 236);
+            -webkit-box-shadow: inset 0 0 2px rgb(236, 236, 236);
+
+            -webkit-border-radius: 9px;
+        }
+    </style>
+
+
+
     <meta charset="UTF-8">
-<title>Search</title>
+<title>酒店</title>
 <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/js/jquery.min.js"></script>
@@ -135,13 +154,11 @@
 <form id="southFrm" action="/hotel/getHotelList">
 					  <ul>	
                              <li class="span1_of_1">
-							 <h5>目的地</h5>
-
+							 <h5>国家</h5>
 							 <div class="section_room">
 							      <select  id="country"  name="countryId" onchange="change_country(this.value)" class="frm-field required">
 										<option value="0">请选择</option>
                                       <option th:value="${countryList.id}" th:each="countryList:${countryList}" th:text="${countryList.countryName}"></option>
-
 							      </select>
 								  <input id="countryIdV" type="hidden" th:value="${countryId}">
 							 </div>
@@ -174,16 +191,14 @@
 						     </div>
 						 </li>
 						  <li class="span1_of_1 left">
-
 							  <div class="section_room">
-
-								  <input style="height: 36px;margin-top: 5px;width: 187px;" type="search" placeholder="快速查找酒店" name="hotelName"/>
+								  <input class="so" style="height: 36px;margin-top: 5px;width: 241px;" type="text" placeholder="快速查找酒店" name="hotelName"/>
 							  </div>
 						  </li>
 
 						 <div class="clearfix"></div>
 					 </ul>
-					<p class="round-trip"> <a href="#" style="margin-left: 15px" onclick="letGO()">Let Go</a></p>
+					<p class="round-trip" style="margin-top: 15px"> <a href="#" style="margin-left: 15px" onclick="letGO()">Let Go</a></p>
 
 			<input type="hidden" name="pageIndex" th:value="${pageBean.pageIndex}">
 			<input type="hidden" name="totalPage" th:value="${pageBean.totalPage}">
@@ -198,16 +213,17 @@
 				<div th:each="hotel:${pageBean.list}">
 					<div th:if="${hotel.hotelName ne null}" class="col-md-3 thumb">
 							<a class="hover-img" href="#" onclick="roomid()" style=" height: 216px;">
-								<span style="height: 236px;"><img th:src="${hotel.imgSrc}" alt="Image Alternative text"   /><h6 style="text-align: center">热线：<span th:text="${hotel.hotLine}"></span></h6></span>
-								<div class="hover-inner hover-inner-block hover-inner-bottom hover-inner-bg-black hover-hold">
-									<div class="text-small">
-										<h6><span th:text="${hotel.hotelName}"></span></h6>
-										<p>酒店星级:<span th:text="${hotel.hotelLevel}"></span></p>
+								<span style="height: 236px;"><img th:src="${hotel.imgSrc}" alt="Image Alternative text"   /></span>
+                                <div class="hover-inner hover-inner-block hover-inner-bottom hover-inner-bg-black hover-hold">
+                                    <div class="text-small">
+                                        <h6><span th:text="${hotel.hotelName}"></span></h6>
+                                        <p>酒店星级:<span th:text="${hotel.hotelLevel}"></span></p>
 
-										<p class="mb0" th:text="${hotel.details}"></p>
+                                        <p class="mb0" th:text="${hotel.details}"></p>
                                         <input type="hidden" th:value="${hotel.id}" name="hotelId">
-									</div>
-								</div>
+                                    </div>
+                                </div>
+								<h6 style="text-align: center">热线：<span th:text="${hotel.hotLine}"></span></h6>
 							</a>
 					</div>
 				</div>

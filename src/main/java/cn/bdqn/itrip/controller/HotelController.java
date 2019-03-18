@@ -34,7 +34,7 @@ public class HotelController {
                            @RequestParam(value = "hotelName",required = false) String hotelName,
                            @RequestParam(value = "countryId",required = false) Integer countryId,
                            @RequestParam(value = "pageIndex",required = false ,defaultValue = "1") Integer pageIndex,
-                           @RequestParam(value = "pageSize",required = false,defaultValue = "1") Integer pageSize){
+                           @RequestParam(value = "pageSize",required = false,defaultValue = "8") Integer pageSize){
 
         PageBean<Hotel> pageBean = hotelService.findHotelList(hotelLevel, hotelName, countryId,pageIndex,pageSize);
         List<Country> countryList = hotelService.findCountryList();
