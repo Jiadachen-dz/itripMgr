@@ -109,36 +109,36 @@
 					<a href="index.html"><h1>酒店</h1></a>
 				</div>
 				<!-- start h_menu4 -->
-					<div class="h_menu4">
-					<a class="toggleMenu" href="">菜单</a>
+				<div class="h_menu4">
+					<a class="toggleMenu" href="">Menu</a>
 					<ul class="nav p-nav">
-						<li class="active"><a href="index.html">家</a></li>
-						<li><a href="booking.html">酒店</a>
+						<li class="active"><a href="/jump/jumpHome">首页</a></li>
+						<li><a href="/hotel/getHotelList">酒店</a>
 							<ul>
-								<<li><a href="booking.html">酒店列表</a></li>
-                                <li><a href="rooms.html">房间类型</a></li>
-                                <li><a href="reservation.html">房间预定</a></li>
-								<li><a href="booking.html">大城市酒店</a></li>
-								<li><a href="booking.html">small city hotels</a></li>
+								<li><a href="/hotel/getHotelList">酒店列表</a></li>
+								<li><a href="/jump/jumpRooms">房间类型</a></li>
+								<li><a href="reservation.html">房间预定</a></li>
+								<li><a href="booking.html">大城市的酒店</a></li>
+								<li><a href="booking.html">小城市的酒店</a></li>
 							</ul>
 						</li>
-						<li><a href="payment.html">航班</a>
+						<li><a href="/jump/jumpPayment">机票</a>
 							<ul>
-								<li><a href="payment.html">付款</a></li>
-								<li><a href="search.html">搜索</a></li>
-								<li><a href="search.html">列表</a></li>
+								<li><a href="/jump/jumpPayment">付款</a></li>
+								<li><a href="/jump/jumpSearch">搜索</a></li>
+								<li><a href="/jump/jumpSearch">列表</a></li>
 							</ul>
 						</li>
-						<li><a href="destination.html" class="root">目的地</a>
+						<li><a href="/jump/jumpDestination" class="root">旅游</a>
 							<ul>
-								<li><a href="destination.html">菲律宾</a></li>
-								<li><a href="destination.html">巴西</a></li>
-								<li><a href="destination.html">纽约</a></li>
+								<li><a href="/jump/jumpDestination">菲力宾</a></li>
+								<li><a href="/jump/jumpDestination">巴西</a></li>
+								<li><a href="/jump/jumpDestination">纽约</a></li>
 							</ul>
 						</li>
-							<li><a href="contact.html">接触</a></li>
-						</ul>
-						<script type="text/javascript" src="/js/nav.js"></script>
+						<li><a href="/jump/jumpContact">联系</a></li>
+					</ul>
+					<script type="text/javascript" src="/js/nav.js"></script>
 				</div>
 				<!-- end h_menu4 -->
 			</div>
@@ -230,7 +230,7 @@
                 <div class="gap"></div>
             </div>
 
-</div>
+        </div>
     </form>
 		<div id="record">
 			共 <span th:text="${pageBean.totalCount }"></span> 条记录
@@ -261,6 +261,8 @@
 		</div>			
 	</div>
 	<!-- footer-section-ends -->
-
+		</div>
+	</div>
+</div>
 </body>
 </html>

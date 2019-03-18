@@ -39,6 +39,10 @@
 			-webkit-appearance: none;
 			font-weight: 500;
 		}
+		#background{
+			background-image: url("/images/backgrounds/bg_active.jpg");
+			background-repeat:round;
+		}
 
 
 
@@ -72,10 +76,10 @@
 					<a class="toggleMenu" href="">Menu</a>
 					<ul class="nav p-nav">
 						<li class="active"><a href="/jump/jumpHome">首页</a></li>
-						<li><a href="/jump/jumpHotel">酒店</a>
+						<li><a href="/hotel/getHotelList">酒店</a>
 							<ul>
-								<li><a href="booking.html">酒店列表</a></li>
-								<li><a href="rooms.html">房间类型</a></li>
+								<li><a href="/hotel/getHotelList">酒店列表</a></li>
+								<li><a href="/jump/jumpRooms">房间类型</a></li>
 								<li><a href="reservation.html">房间预定</a></li>
 								<li><a href="booking.html">大城市的酒店</a></li>
 								<li><a href="booking.html">小城市的酒店</a></li>
@@ -105,14 +109,14 @@
 	</div>
 	<!-- header-ends -->
 	<!-- content-section-starts -->
-	<div class="main_bg">
+	<div class="main_bg" id="background">
 <div class="container">
 	<div class="main">
 		<div class="contact">				
       					
 				<div class="contact_right" style="width: 600px;margin-left: 264px">
 				  <div class="contact-form">
-				  	<h3 style="text-align:center;">激活帐号</h3>
+				  	<h3 style="text-align:center;color: yellow">激活帐号</h3>
 					  <div style="text-align: center;color: green" th:text="${msg}"></div>
 					    <form id="at_form" style="margin-top: 16px" method="post" action="/user/doActivateAccount.html">
                             <!--激活帐号-->

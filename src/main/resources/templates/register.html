@@ -40,6 +40,10 @@
 			font-weight: 500;
 		}
 
+		#background{
+			background-image: url("/images/backgrounds/bg_register.jpg");
+			background-repeat:round;
+		}
 
 
 	</style>
@@ -68,44 +72,44 @@
 					<a href="index.html"><h1>i旅行</h1></a>
 				</div>
 				<!-- start h_menu4 -->
-				<div class="h_menu4">
-					<a class="toggleMenu" href="">Menu</a>
-					<ul class="nav p-nav">
-						<li class="active"><a href="/jump/jumpHome">首页</a></li>
-						<li><a href="/jump/jumpHotel">酒店</a>
-							<ul>
-								<li><a href="booking.html">酒店列表</a></li>
-								<li><a href="rooms.html">房间类型</a></li>
-								<li><a href="reservation.html">房间预定</a></li>
-								<li><a href="booking.html">大城市的酒店</a></li>
-								<li><a href="booking.html">小城市的酒店</a></li>
-							</ul>
-						</li>
-						<li><a href="/jump/jumpPayment">机票</a>
-							<ul>
-								<li><a href="/jump/jumpPayment">付款</a></li>
-								<li><a href="/jump/jumpSearch">搜索</a></li>
-								<li><a href="/jump/jumpSearch">列表</a></li>
-							</ul>
-						</li>
-						<li><a href="/jump/jumpDestination" class="root">旅游</a>
-							<ul>
-								<li><a href="/jump/jumpDestination">菲力宾</a></li>
-								<li><a href="/jump/jumpDestination">巴西</a></li>
-								<li><a href="/jump/jumpDestination">纽约</a></li>
-							</ul>
-						</li>
-						<li><a href="/jump/jumpContact">联系</a></li>
-					</ul>
-					<script type="text/javascript" src="/js/nav.js"></script>
-				</div>
+                <div class="h_menu4">
+                    <a class="toggleMenu" href="">Menu</a>
+                    <ul class="nav p-nav">
+                        <li class="active"><a href="/jump/jumpHome">首页</a></li>
+                        <li><a href="/hotel/getHotelList">酒店</a>
+                            <ul>
+                                <li><a href="/hotel/getHotelList">酒店列表</a></li>
+                                <li><a href="/jump/jumpRooms">房间类型</a></li>
+                                <li><a href="reservation.html">房间预定</a></li>
+                                <li><a href="booking.html">大城市的酒店</a></li>
+                                <li><a href="booking.html">小城市的酒店</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/jump/jumpPayment">机票</a>
+                            <ul>
+                                <li><a href="/jump/jumpPayment">付款</a></li>
+                                <li><a href="/jump/jumpSearch">搜索</a></li>
+                                <li><a href="/jump/jumpSearch">列表</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/jump/jumpDestination" class="root">旅游</a>
+                            <ul>
+                                <li><a href="/jump/jumpDestination">菲力宾</a></li>
+                                <li><a href="/jump/jumpDestination">巴西</a></li>
+                                <li><a href="/jump/jumpDestination">纽约</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/jump/jumpContact">联系</a></li>
+                    </ul>
+                    <script type="text/javascript" src="/js/nav.js"></script>
+                </div>
 				<!-- end h_menu4 -->
 			</div>
 		</div>
 	</div>
 	<!-- header-ends -->
 	<!-- content-section-starts -->
-	<div class="main_bg">
+	<div class="main_bg" id="background">
 <div class="container">
 	<div class="main">
 		<div class="contact">				
@@ -113,7 +117,7 @@
 				<div class="contact_right" style="width: 600px;margin-left: 264px">
 				  <div class="contact-form">
 				  	<h3 style="text-align:center;">欢迎注册</h3>
-					  <label for="emailRadio"><input id="emailRadio" name="reg_choose" style="margin-left: -68px" type="radio" checked>邮箱注册</label>  <label for="phoneRadio"><input id="phoneRadio" name="reg_choose" style="margin-left: 60px" type="radio">手机注册</label>
+                      <label for="emailRadio"><input id="emailRadio" name="reg_choose" style="margin-left: -68px" type="radio" checked>邮箱注册</label>  <label for="phoneRadio"><input id="phoneRadio" name="reg_choose" style="margin-left: 60px" type="radio">手机注册</label>
 					  <!--邮箱注册 start ***********************************************************************-->
 					  <div id="emailRegister" style="display: block">
 					    <form id="email_form" style="margin-top: 16px" method="post" action="/user/doRegister.html">

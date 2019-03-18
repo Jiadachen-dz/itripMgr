@@ -39,6 +39,10 @@
 			-webkit-appearance: none;
 			font-weight: 500;
 		}
+        #background{
+            background-image: url("/images/backgrounds/bg_login.jpg");
+            background-repeat:round;
+        }
 	</style>
 	<meta charset="UTF-8">
 <title>Contact</title>
@@ -68,31 +72,31 @@
 				<div class="h_menu4">
 					<a class="toggleMenu" href="">Menu</a>
 					<ul class="nav p-nav">
-						<li class="active"><a href="/jump/jumpHome">首页</a></li>
-						<li><a href="/jump/jumpHotel">酒店</a>
-							<ul>
-								<li><a href="booking.html">酒店列表</a></li>
-								<li><a href="rooms.html">房间类型</a></li>
-								<li><a href="reservation.html">房间预定</a></li>
-								<li><a href="booking.html">大城市的酒店</a></li>
-								<li><a href="booking.html">小城市的酒店</a></li>
-							</ul>
+                        <li class="active"><a href="/jump/jumpHome">首页</a></li>
+                        <li><a href="/hotel/getHotelList">酒店</a>
+                            <ul>
+                                <li><a href="/hotel/getHotelList">酒店列表</a></li>
+                                <li><a href="/jump/jumpRooms">房间类型</a></li>
+                                <li><a href="reservation.html">房间预定</a></li>
+                                <li><a href="booking.html">大城市的酒店</a></li>
+                                <li><a href="booking.html">小城市的酒店</a></li>
+                            </ul>
 						</li>
-						<li><a href="/jump/jumpPayment">机票</a>
-							<ul>
-								<li><a href="/jump/jumpPayment">付款</a></li>
-								<li><a href="/jump/jumpSearch">搜索</a></li>
-								<li><a href="/jump/jumpSearch">列表</a></li>
-							</ul>
-						</li>
-						<li><a href="/jump/jumpDestination" class="root">旅游</a>
-							<ul>
-								<li><a href="/jump/jumpDestination">菲力宾</a></li>
-								<li><a href="/jump/jumpDestination">巴西</a></li>
-								<li><a href="/jump/jumpDestination">纽约</a></li>
-							</ul>
-						</li>
-						<li><a href="/jump/jumpContact">联系</a></li>
+                        <li><a href="/jump/jumpPayment">机票</a>
+                            <ul>
+                                <li><a href="/jump/jumpPayment">付款</a></li>
+                                <li><a href="/jump/jumpSearch">搜索</a></li>
+                                <li><a href="/jump/jumpSearch">列表</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/jump/jumpDestination" class="root">旅游</a>
+                            <ul>
+                                <li><a href="/jump/jumpDestination">菲力宾</a></li>
+                                <li><a href="/jump/jumpDestination">巴西</a></li>
+                                <li><a href="/jump/jumpDestination">纽约</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/jump/jumpContact">联系</a></li>
 					</ul>
 					<script type="text/javascript" src="/js/nav.js"></script>
 				</div>
@@ -102,8 +106,8 @@
 	</div>
 	<!-- header-ends -->
 	<!-- content-section-starts -->
-	<div class="main_bg">
-<div class="container">
+	<div class="main_bg" id="background">
+        <div class="container">
 	<div class="main">
 		<div class="contact">				
       					
