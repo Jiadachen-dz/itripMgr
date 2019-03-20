@@ -91,9 +91,11 @@
         $("#southFrm").submit()
 
 	}
-    function roomid(){
-        $("#roomid").submit()
-
+    function roomid(obj){
+        var $obj = $(obj);
+        var hotelId = $obj.find("input:eq(0)").val();
+        $("#roomid").append("<input type='hidden' value='"+hotelId+"' name='hotelId'>");
+        $("#roomid").submit();
     }
 </script>
 
@@ -212,7 +214,7 @@
             <div class="row row-wrap">
 				<div th:each="hotel:${pageBean.list}">
 					<div th:if="${hotel.hotelName ne null}" class="col-md-3 thumb">
-							<a class="hover-img" href="#" onclick="roomid()" style=" height: 216px;">
+							<a class="hover-img" href="#" onclick="roomid(this)" style=" height: 216px;">
 								<span style="height: 236px;"><img th:src="${hotel.imgSrc}" alt="Image Alternative text"   /></span>
                                 <div class="hover-inner hover-inner-block hover-inner-bottom hover-inner-bg-black hover-hold">
                                     <div class="text-small">
@@ -220,7 +222,7 @@
                                         <p>酒店星级:<span th:text="${hotel.hotelLevel}"></span></p>
 
                                         <p class="mb0" th:text="${hotel.details}"></p>
-                                        <input type="hidden" th:value="${hotel.id}" name="hotelId">
+                                        <input type="hidden" th:value="${hotel.id}">
                                     </div>
                                 </div>
 								<h6 style="text-align: center">热线：<span th:text="${hotel.hotLine}"></span></h6>
@@ -229,9 +231,10 @@
 				</div>
                 <div class="gap"></div>
             </div>
-
         </div>
     </form>
+
+	<!--分页start-->
 		<div id="record">
 			共 <span th:text="${pageBean.totalCount }"></span> 条记录
 			<span th:text="${pageBean.pageIndex }"></span>/<span th:text="${pageBean.totalPage }"></span>页
@@ -251,7 +254,7 @@
 				<a href="javascript:tailPage(document.forms[0]);" style="margin-left: 10px;">最后一页</a>
 			</span>
 		</div>
-
+	<!--分页end-->
 
 
 
@@ -265,4 +268,5 @@
 	</div>
 </div>
 </body>
+
 </html>

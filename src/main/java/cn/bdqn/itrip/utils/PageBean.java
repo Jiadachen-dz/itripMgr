@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PageBean<T> {
     /**
-     * 页码
+     * 当前页码
      */
     private int pageIndex;
     /**

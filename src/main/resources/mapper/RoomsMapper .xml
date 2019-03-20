@@ -5,10 +5,14 @@
 <mapper namespace="cn.bdqn.itrip.dao.RoomsMapper">
 
 <select id="getRoomTypeByHotelId" resultType="roomType">
-      SELECT * FROM roomtype where hotelId=#{hotelId}
+      SELECT * FROM roomtype where hotelId=#{hotelId} limit #{startRow},#{pageSize}
 </select>
 
       <select id="getHotelByhotelId" resultType="hotel">
-            SELECT ht.* FROM hotel ht,roomtype rt WHERE ht.id = rt.hotelId AND rt.hotelId = #{hotelId}
+            SELECT * FROM hotel WHERE id = #{id}
+      </select>
+
+      <select id="count" resultType="int">
+            SELECT COUNT(1) FROM roomtype where hotelId=#{hotelId}
       </select>
 </mapper>

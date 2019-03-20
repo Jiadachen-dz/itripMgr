@@ -100,8 +100,8 @@
 	<div class="room-main">
 		<div class="room-content">
 			<div class="room">
-				<h4>山景房</h4>
-				<!--<h4 th:text=""></h4>    显示酒店名字-->
+				<!--<h4>山景房</h4>-->
+				<h4 th:text="${hotel.hotelName}"></h4>    <!--显示酒店名字-->
 				<p class="para">Lorem Ipsum的段落有许多变化，但是大多数都会通过注入幽默或者看起来不太可信的随机单词进行某种形式的改变。如果你打算使用一段Lorem Ipsum，你需要确保在文本中间没有隐藏任何尴尬。互联网上的所有Lorem Ipsum生成器都会重复出现。</p>
 			</div>
             <div class="grids_of_2">
@@ -115,7 +115,7 @@
                     <td>价格</td>
                     <td>操作</td>
                 </tr>
-                <tr th:each="room : ${rooms}">
+                <tr th:each="room : ${pageBean.list}">
 
                     <td>
                         <img width="50px" height="50px" src="/images/r-pic4.jpg" alt="房型图片"/><br><span th:text="${room.roomTitle}"></span>
@@ -138,7 +138,31 @@
             </div>
 
 		<!--分页start-->
+            <form action="/rooms/findRoomsByHotelId">
+			<div id="record">
+				共 <span th:text="${pageBean.totalCount }"></span> 条记录
+				<span th:text="${pageBean.pageIndex }"></span>/<span th:text="${pageBean.totalPage }"></span>页
 
+
+
+				<span style="margin-left: 358px;" th:if="${pageBean.pageIndex > 1}">
+				<a href="javascript:homePage(document.forms[1],1);">首页</a>
+                <!--forms[1]表示当前页面的第2个表单-->
+
+			<a href="javascript:page_nav_up(document.forms[1]);" style="margin-left: 10px;" d>上一页</a>
+				</span>
+
+
+				<span style="margin-left: 6px;" th:if ="${pageBean.pageIndex < pageBean.totalPage } " >
+				<a href="javascript:page_nav_down(document.forms[1]);" style="margin-left: 10px;">下一页</a>
+				<a href="javascript:tailPage(document.forms[1]);" style="margin-left: 10px;">最后一页</a>
+			</span>
+			</div>
+
+			<input type="hidden" name="pageIndex" th:value="${pageBean.pageIndex}">
+			<input type="hidden" name="totalPage" th:value="${pageBean.totalPage}">
+			<input type="hidden" name="hotelId" th:value="${hotelId}">
+            </form>
 		<!--分页end-->
 
 		</div>
@@ -191,7 +215,22 @@
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript">
     <!--分页start-->
-
+    function page_nav_down(frm){
+        frm.pageIndex.value = new Number(frm.pageIndex.value)+1;
+        frm.submit();
+    }
+    function page_nav_up(frm){
+        frm.pageIndex.value = new Number(frm.pageIndex.value)-1;
+        frm.submit();
+    }
+    function homePage(frm){
+        frm.pageIndex.value = 1;
+        frm.submit();
+    }
+    function tailPage(frm){
+        frm.pageIndex.value = frm.totalPage.value;
+        frm.submit();
+    }
     <!--分页end-->
     $(function () {
         /**
