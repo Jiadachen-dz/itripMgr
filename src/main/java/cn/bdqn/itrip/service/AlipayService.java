@@ -6,6 +6,9 @@ import cn.bdqn.itrip.pojo.AlipayParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 支付宝支付service
+ */
 public interface AlipayService {
     /**
       * 付款

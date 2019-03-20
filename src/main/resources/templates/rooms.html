@@ -64,7 +64,7 @@
 						<ul>
 							<li><a href="/hotel/getHotelList">酒店列表</a></li>
 							<li><a href="/jump/jumpRooms">房间类型</a></li>
-							<li><a href="reservation.html">房间预定</a></li>
+							<li><a href="addOrder.html">房间预定</a></li>
 							<li><a href="booking.html">大城市的酒店</a></li>
 							<li><a href="booking.html">小城市的酒店</a></li>
 						</ul>
@@ -104,8 +104,9 @@
 				<h4 th:text="${hotel.hotelName}"></h4>    <!--显示酒店名字-->
 				<p class="para">Lorem Ipsum的段落有许多变化，但是大多数都会通过注入幽默或者看起来不太可信的随机单词进行某种形式的改变。如果你打算使用一段Lorem Ipsum，你需要确保在文本中间没有隐藏任何尴尬。互联网上的所有Lorem Ipsum生成器都会重复出现。</p>
 			</div>
+
             <div class="grids_of_2">
-				<form id="booking_time" action="/order/findOrder">
+				<!--<form id="booking_time" action="/order/findOrder">-->
             <table cellpadding="0" cellspacing="0" id="roomTypeTal" style="text-align: center" width="100%">
                 <tr style="background: lightblue;font-style: italic;color: orange">
                     <td>房型</td>
@@ -132,9 +133,10 @@
                         <td>免费wifi</td>
                         <td>￥<span th:text="${room.roomPrice}"></span></td>
                         <td><input type="button" class="booking" value="预定" style="background: orange"></td>
+                    <input name="id" th:value="${room.id}" type="hidden" >
                 </tr>
             </table>
-				</form>
+
             </div>
 
 		<!--分页start-->
@@ -169,20 +171,20 @@
         <!--右边-->
 		<div class="sidebar">
 			<ul class="s_nav">
-
-                <!--<form id="booking_time" action="/jump/jumpReservation">-->
+                <form id="booking_time" action="/order/findRoomInfo">
                 <li  class="span1_of_1 left">
                     <h5>入住时间</h5>
                     <div class="book_date">
-                            <input class="date" id="comeInDate" name="comeInDate" type="date" placeholder="请输入入住时间">
+                            <input class="date" id="comeInDate" name="checkInDate" type="date" placeholder="请输入入住时间">
                     </div>
                 </li>
                 <li  class="span1_of_1 left">
                     <h5>退房时间</h5>
                     <div class="book_date">
-                            <input class="date" id="leaveDate" name="leaveDate" type="date" placeholder="请输入退房时间" >
+                            <input class="date" id="leaveDate" name="checkOutDate" type="date" placeholder="请输入退房时间" >
                     </div>
                 </li>
+                <input type="hidden" id="loginUser" th:value="${session.loginUser}">
                 </form>
 
 				<li><a href="#">Etiam malesuada leo ornare</a></li>
@@ -283,6 +285,15 @@
          * 点击预定按钮
          */
         $(".booking").click(function () {
+            // 提交  如未登陆用户显示登陆用户页面
+            var loginUser= $("#loginUser").val();
+            if (loginUser == '' || loginUser == null){
+                alert("你还没登录，不能预定，请先登录！");
+                location.href="/jump/jumpLogin"
+                return;
+            }
+            var roomTypeId = $(this).parent().next().val();
+            $("#booking_time").append("<input type='hidden' value='"+roomTypeId+"' name='id'>");
             var comeInDate = $("#comeInDate").val();
             var leaveDate = $("#leaveDate").val();
             if(comeInDate=='' || leaveDate==''){
@@ -291,6 +302,12 @@
             }
             $("#booking_time").submit();
         })
+        function roomid(obj){
+            var $obj = $(obj);
+            var hotelId = $obj.find("input:eq(0)").val();
+            $("#roomid").append("<input type='hidden' value='"+hotelId+"' name='hotelId'>");
+            $("#roomid").submit();
+        }
         
         
         

@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>支付</title>
 </head>
 <body>
     <!--<a href="/alipay/order" >去支付</a>-->
 <form action="/alipay/order" method="post">
-    <input type="submit" value="去支付">
+    订单名称：<input name="orderName" value="酒店房间订单">
+    订单号：<input name="orderId" th:value="${orderNumber}"><br>
+    支付金额：<input name="amount" th:value="${price}"><br>
+    <br>
+    <input type="submit" value="支付宝支付">
 </form>
 </body>
 </html>

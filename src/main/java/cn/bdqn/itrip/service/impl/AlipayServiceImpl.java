@@ -97,12 +97,13 @@ public class AlipayServiceImpl implements AlipayService {
         request.setReturnUrl(ali_return_url); //同步通知url
         request.setNotifyUrl(ali_notify_url);//异步通知url
         AlipayOrderParam alipayOrderParam = new AlipayOrderParam();
-        alipayOrderParam.setOut_trade_no(UuidUtils.randomUUID());//唯一标识
-        alipayOrderParam.setProduct_code(product_no);
-        alipayOrderParam.setSubject("aa");
-        alipayOrderParam.setTotal_amount(12.00);
-        alipayOrderParam.setTimeout_express(time_express);
-        alipayOrderParam.setPassback_params("test");
+        alipayOrderParam.setOut_trade_no(param.getOrderId());//唯一标识 商户订单号
+        alipayOrderParam.setProduct_code(product_no);    //销售产品码
+        alipayOrderParam.setSubject(param.getOrderName());  //订单名称
+//        alipayOrderParam.setSubject("酒店房间订单");   //订单名称
+        alipayOrderParam.setTotal_amount(param.getAmount());   //总金额
+        alipayOrderParam.setTimeout_express(time_express);    //该笔订单允许的最晚付款时间，逾期将关闭交易
+        alipayOrderParam.setPassback_params("test");   //公共校验参数
         /*Order order = new Order();
         order.setOrderNo(param.getOrderId());
         order.setUserId(1);

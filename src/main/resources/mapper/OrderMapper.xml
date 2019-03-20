@@ -3,51 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.bdqn.itrip.dao.OrderMapper">
-    <insert id="saveOrder" parameterType="order" keyProperty="id" useGeneratedKeys="true">
-        insert into orders(userId,orderType,orderNo,tradeNo,roomId,hotelId,count,bookingDays,checkInDate,checkOutDate,orderStatus,payAmount,noticePhone,linkUserName,createdBy,creationDate)
-        values (#{userId},#{orderType},#{orderNo},#{tradeNo},#{roomId},#{hotelId},#{count},#{bookingDays},#{checkInDate},#{checkOutDate},#{orderStatus},#{payAmount},#{noticePhone},#{linkUserName},#{userId},now());
+
+    <select id="getRoomInfo" resultType="roomtype">
+        SELECT * FROM `roomtype`
+        <trim prefix="where" prefixOverrides="and||or">
+            <if test="id != null||id  != ''">
+                and id = #{id}
+            </if>
+        </trim>
+    </select>
+    <insert id="addOrder" parameterType="Order">
+        INSERT INTO orders(userId,roomId,COUNT,bookingDays,checkInDate,checkOutDate,orderStatus,payAmount,noticePhone,linkUserName,orderNo)
+        VALUES (#{userId},#{roomId},#{count},#{bookingDays},#{checkInDate},#{checkOutDate},#{orderStatus},#{payAmount},#{noticePhone},#{linkUserName},#{orderNo})
     </insert>
-
-    <select id="queryOrders" resultType="order" parameterType="order">
-        select *, (select getValue from dictionary where relId = o.orderStatus and relType='orderStatus') as orderStatusName from orders o where userId = #{userId}
-         <if test="orderStatus != null">
-             and orderStatus = #{orderStatus}
-         </if>
-         <if test="checkInDate != null and checkInDate!=''">
-            and checkInDate = #{checkInDate}
-         </if>
-         <if test="checkOutDate != null and checkOutDate!=''">
-            and checkOutDate = #{checkOutDate}
-         </if>
-         <if test="orderNo != null and orderNo!=''">
-             and orderNo like concat('%',#{orderNo},'%')
-         </if>
-         <if test="linkUserName != null and linkUserName!=''">
-             and linkUserName like concat('%',#{linkUserName},'%')
-         </if>
-         order by creationDate desc limit #{startRow},#{pageSize}
-    </select>
-
-    <select id="queryOrdersCount" resultType="int">
-        select count(1) from orders where userId = #{userId}
-            <if test="orderStatus != null">
-                and orderStatus = #{orderStatus}
-            </if>
-            <if test="checkInDate != null and checkInDate!=''">
-                and checkInDate = #{checkInDate}
-            </if>
-            <if test="checkOutDate != null and checkOutDate!=''">
-                and checkOutDate = #{checkOutDate}
-            </if>
-            <if test="orderNo != null and orderNo!=''">
-                and orderNo like concat('%',#{orderNo},'%')
-            </if>
-            <if test="linkUserName != null and linkUserName!=''">
-                and linkUserName like concat('%',#{linkUserName},'%')
-            </if>
-    </select>
-    <update id="modifyOrderStatus">
-        update orders set orderStatus = #{orderStatus} where id=#{id}
-    </update>
 
 </mapper>

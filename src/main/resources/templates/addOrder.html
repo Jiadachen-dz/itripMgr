@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<meta charset="UTF-8">
+<title>Reservation</title>
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<link rel="stylesheet" href="/css/font-awesome.css">
+<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--webfont-->
+<link href='http://fonts.useso.com/css?family=Raleway:400,100,200,300,500,600,700,800,900' rel='stylesheet' type='text/css'>
+<link href='http://fonts.useso.com/css?family=Roboto:400,900italic,900,700italic,700,500italic,500,400italic,300,300italic,100italic,100' rel='stylesheet' type='text/css'>
+<script src="/js/easyResponsiveTabs.js" type="text/javascript"></script>
+		    <script type="text/javascript">
+			    $(document).ready(function () {
+			        $('#horizontalTab').easyResponsiveTabs({
+			            type: 'default', //Types: default, vertical, accordion           
+			            width: 'auto', //auto or any width like 600px
+			            fit: true   // 100% fit in a container
+			        });
+			    });
+</script>
+		<script src="/js/jquery.easydropdown.js" type="text/javascript"></script>
+	<!---strat-date-piker---->
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+<script src="/js/jquery-ui.js"></script>
+		  <script>
+				  $(function() {
+				    $( "#datepicker,#datepicker1" ).datepicker();
+				  });
+		  </script>
+
+<style>
+    /*背景图片*/
+    #background{
+        background-image: url("/images/backgrounds/324470.jpg");
+        background-repeat:round;
+    }
+</style>
+
+</head>
+<body id="background">
+	<!-- header-starts -->
+	<div class="page-header">
+		<div class="container">
+			<div class="page-header-info">
+				<div class="page-header-info-head text-center">
+					<a href="index.html"><h1>i旅行</h1></a>
+				</div>
+				<!-- start h_menu4 -->
+				<div class="h_menu4">
+					<a class="toggleMenu" href="">Menu</a>
+					<ul class="nav p-nav">
+						<li class="active"><a href="/jump/jumpHome">首页</a></li>
+						<li><a href="/hotel/getHotelList">酒店</a>
+							<ul>
+								<li><a href="/hotel/getHotelList">酒店列表</a></li>
+								<li><a href="/jump/jumpRooms">房间类型</a></li>
+								<li><a href="addOrder.html">房间预定</a></li>
+								<li><a href="booking.html">大城市的酒店</a></li>
+								<li><a href="booking.html">小城市的酒店</a></li>
+							</ul>
+						</li>
+						<li><a href="/jump/jumpPayment">机票</a>
+							<ul>
+								<li><a href="/jump/jumpPayment">付款</a></li>
+								<li><a href="/jump/jumpSearch">搜索</a></li>
+								<li><a href="/jump/jumpSearch">列表</a></li>
+							</ul>
+						</li>
+						<li><a href="/jump/jumpDestination" class="root">旅游</a>
+							<ul>
+								<li><a href="/jump/jumpDestination">菲力宾</a></li>
+								<li><a href="/jump/jumpDestination">巴西</a></li>
+								<li><a href="/jump/jumpDestination">纽约</a></li>
+							</ul>
+						</li>
+						<li><a href="/jump/jumpContact">联系</a></li>
+					</ul>
+					<script type="text/javascript" src="/js/nav.js"></script>
+				</div>
+				<!-- end h_menu4 -->
+			</div>
+		</div>
+	</div>
+
+
+		<div class="span_of_2">
+            <h2 style="text-align: center">预定房间</h2>
+			<form id="orderId" action="/order/addOrder">
+					<div  style="margin-top: 20px; width: 91% " >
+						<table border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center" id="table">
+							<tr>
+								<th style="width:113px;">入住日期:</th> <td style="width:113px;" th:text="${#dates.format(session.romInfo.creationDate,'yyyy-MM-dd')}" ></td>
+								<th style="width:113px;">退房日期:</th></th><td style="width:113px;" th:text="${#dates.format(session.romInfo.modifyDate,'yyyy-MM-dd')}"></td >
+							</tr>
+
+							<tr>
+								<th>房间类型:</th><td th:text="${session.romInfo.roomTitle}" ></td>
+								<th>支付金额:</th><td id="roomPrice" th:text="${session.romInfo.roomPrice}"></td>
+								<input type="hidden" id="roomPriceV" th:value="${session.romInfo.roomPrice}">
+							</tr>
+
+							<tr>
+								<th>是否含早餐:</th><td >含早餐</td>
+								<th>订单编号:</th> <th ><input th:value="${orderNumber}" name="orderNumber"/></th>
+
+
+							</tr>
+
+
+							<tr>
+								<th>预定房间数量:</th><td ><input type="number" name="count" onchange="changeRoomNum()"  id="roomNum" value="1"></td>
+								<th>剩余房间:</th><td style="color: red">2</td>
+							</tr>
+							<tr>
+								<th>住客信息:</th>
+								<th><input value="添加旅客" type="button" id="addPassengers"></th>
+							</tr>
+
+							<div id="add" style="display: none;margin-left: 645px;">
+								<form id="addinfo" >
+
+									<label >旅客姓名:</label></br><input type="text" name="linkUserName" id="linkUserName"></br>
+									<label>联系电话:</label></br><input type="text" name="noticePhone" id="noticePhone"></br>
+									<label>身份证号:</label></br><input type="text" name="birthCertificateMumber" id="birthCertificateMumber" >
+									<input type="button" value="提交" id="addSub">
+
+								</form>
+							</div>
+							<!--//入离时间差-->
+							<input type="hidden"  id="days" name="days" th:value="${days}">
+							<!--订单状态-->
+							<input type="hidden" id="orderStatus" th:value="${orderStatus}" name="orderStatus" />
+							<input type="hidden"  id="recordDate" name="recordDate" th:value="${recordDate}">
+						</table>
+					</div>
+
+				<div class="clearfix"></div>
+
+			<div class="res_btn" style="margin-top: 50px; margin-right: 72px;" id="xiadan">
+
+					<input type="button" value="立即下单" style="width: 227px;" id="placeOrder">
+					<input type="button" value="取消订单" style="width: 227px;" id="cancelOrder">
+			</div>
+				<input type="hidden" th:name="id" th:value="${session.romInfo.id}"/>
+				<span th:text="${msg}" style="color: red"></span>
+			</form>
+		</div>
+
+		<div class="footer" style="margin-top: 330px;">
+			<div class="copy-rights text-center" >
+				<p>版权所有©2019.华立四大天王 天王保留所有版权.</p>
+			</div>
+		</div>
+</body>
+<script>
+
+
+    //点击下单  订单状态改为待支付
+    $("#placeOrder").click(function () {
+        $("#orderStatus").val(0)
+
+
+        // 提交  要添加旅客信息
+        var linkUserName = $("#linkUserName").val();
+        var noticePhone = $("#noticePhone").val();
+        var birthCertificateMumber = $("#birthCertificateMumber").val();
+        if (linkUserName == '' || linkUserName == null) {
+            alert("名字不能为空,添加旅客")
+            return;
+        }
+        if (noticePhone == '' || noticePhone == null) {
+            alert("请填写电话号码,添加旅客")
+            return;
+        }
+        if (birthCertificateMumber == '' || birthCertificateMumber == null) {
+            alert("请填写身份证号,添加旅客")
+            return;
+        }
+        $("#orderId").submit();
+
+    })
+    //点击取消下单  订单状态改为已取消
+    $("#cancelOrder").click(function () {
+        $("#orderStatus").val(1)
+
+    })
+
+
+    /**
+	 * 房间数量改变
+	 * 房间价格也跟着改变
+     */
+    function changeRoomNum() {
+       if ( $("#roomNum").val()<1) {
+           $("#roomNum").val(1)
+		   alert("房间数量至少有一间")
+       }
+       $("#roomPrice").html( $("#roomPriceV").val()*$("#roomNum").val())
+
+    }
+
+    /**
+	 * 显示添加旅客
+     */
+	$("#addPassengers").click(function () {
+	    $("#add").show();
+	    $("#table").hide();
+        $("#xiadan").hide();
+    })
+    /**
+	 * 判断旅客信息不能为空
+	 *
+	 * 提交表单
+	 *
+	 * 按提交隐藏添加旅客
+     */
+	$("#addSub").click(function () {
+
+
+        var linkUserName = $("#linkUserName").val();
+        var noticePhone = $("#noticePhone").val();
+        var birthCertificateMumber = $("#birthCertificateMumber").val();
+
+
+        if (linkUserName == '' || linkUserName == null) {
+            alert("名字不能为空")
+            return;
+        }
+        if (noticePhone == '' || noticePhone == null) {
+            alert("请填写电话号码")
+            return;
+        }
+        if (birthCertificateMumber == '' || birthCertificateMumber == null) {
+            alert("请填写身份证号")
+            return;
+        }
+
+        $("#addinfo").submit();
+        $("#add").hide();
+        $("#table").show();
+        $("#xiadan").show();
+    })
+
+
+
+</script>
+</html>

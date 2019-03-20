@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.itrip.dao.StockMapper">
+    <select id="queryRealTimeStock" resultType="RealTimeStock" >
+        SELECT * FROM `realtimestock` WHERE `roomId` = #{roomId} AND `recordDate` = #{recordDate}
+    </select>
+
+    <insert id="saveRealTimeStock" parameterType="RealTimeStock">
+        INSERT INTO `realtimestock`(roomId,recordDate,stock,createdBy,creationDate)
+        VALUES(#{roomId},#{recordDate},#{stock},1,now())
+    </insert>
+
+    <update id="updateRealTimeStock" parameterType="RealTimeStock">
+        update realtimestock set stock = stock-#{roomNum} where roomId = #{roomId} and recordDate = #{recordDate}
+    </update>
+
+    <select id="queryRawStock" resultType="rawStock">
+        select * from rawstock where productType = #{productType} and productId = #{productId}
+    </select>
+</mapper>
